@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet_memoire/get_image.dart';
 import 'dart:convert';
+import 'button.dart';
 import 'entre.dart';
 import 'data_class.dart';
 
@@ -49,6 +50,28 @@ class _LoginState extends State<Inscription> {
     super.initState();
   }
 
+  actionFunction() async{
+
+    if (formKey.currentState!.validate()) {
+
+      Map<String,dynamic> request = {
+        'name' : nomController.text,
+        'telephone' : telephoneController.text,
+        'email' : emailController.text,
+        'password' : passwordController.text,
+        'image' : imageController.getNameImage()
+      };
+
+      final uri = Uri.parse("$url/api/user/save_user");
+      final response = await http.post(uri,body : request);
+      print(response.body);
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      //Navigator.pushNamed(context,'/user/projects',arguments: data['user']['id']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -68,47 +91,8 @@ class _LoginState extends State<Inscription> {
                     entryfield('telephone','text',RegExp(''), telephoneController),
                     entryfield('Email','email',RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'), emailController),
                     entryfield('Mot de pase','text',RegExp(''), passwordController),
-                    imageController = GetImage(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              //fixedSize: const Size(350, 40),
-                                elevation: 5,
-                                backgroundColor: Colors.blue
-                            ),
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-
-                                Map<String,dynamic> request = {
-                                  'name' : nomController.text,
-                                  'telephone' : telephoneController.text,
-                                  'email' : emailController.text,
-                                  'password' : passwordController.text,
-                                  'image' : imageController.getNameImage()
-                                };
-
-                                print(request);
-                                final uri = Uri.parse("$url/api/user/save_user");
-                                final response = await http.post(uri,body : request);
-                                print(response.body);
-
-                                final Map<String, dynamic> data = json.decode(response.body);
-
-                                //Navigator.pushNamed(context,'/user/projects',arguments: data['user']['id']);
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 5.0),
-                              child: Text('Valider',style: textStyle),
-                            ),
-                          ),
-                        ),
-
-                      ],
-                    ),
+                    imageController = GetImage(textDisplay:"Votre image de profit"),
+                    buttonWidget('Valider', actionFunction, context)
                   ]
               ),
             )

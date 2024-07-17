@@ -16,6 +16,16 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
 
+  actionLogin() {
+
+        Navigator.pushNamed(context,'/login');
+  }
+
+  actionInscription() {
+
+    Navigator.pushNamed(context,'/inscription');
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -33,8 +43,14 @@ class _WelcomePageState extends State<WelcomePage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(300)),
                       child: Image.asset('images/6.png',width: 200)
                   ),
-                  loginButton("Se connecter", '/login' ,context),
-                  loginButton("Inscription", '/inscription',context)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50.0,right: 50.0,bottom: 20),
+                    child: buttonWidget("Se connecter",actionLogin,context),
+                  ),
+                 Padding(
+                   padding: const EdgeInsets.only(left: 50.0,right: 50.0,bottom: 20),
+                   child: buttonWidget("Inscription",actionInscription,context),
+                 )
                 ],
               ),
 

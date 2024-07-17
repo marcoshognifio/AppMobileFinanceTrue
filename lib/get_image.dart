@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GetImage extends StatefulWidget {
-  GetImage({super.key});
+  GetImage({super.key,required this.textDisplay});
   XFile? imageFile;
+  String textDisplay;
   @override
   GetImageState createState() => GetImageState();
 
@@ -16,12 +17,16 @@ class GetImage extends StatefulWidget {
 
 class GetImageState extends State<GetImage> {
 
-  String textButton = "Choisissez une image";
+  late String textButton;
+  @override
+  void initState() {
+    textButton = widget.textDisplay;
+    super.initState();
+  }
 
   Future<void> _getImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
 
     setState(() {
       widget.imageFile = image;

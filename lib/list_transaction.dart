@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projet_memoire/data_class.dart';
 
+import 'app_bar.dart';
+
 class ListTransaction extends StatefulWidget {
   const ListTransaction({super.key});
 
@@ -13,14 +15,27 @@ class ListTransactionState extends State<ListTransaction> {
 
   @override
   Widget build(BuildContext context) {
+
     return   Scaffold(
 
+      appBar:  const AppBarWidget( menu:'/menuProject' ),
         backgroundColor: Colors.white,
-        body: ListView.builder(
-            itemCount: listTransaction.length,
-            itemBuilder: (context, index){
-              return itemList(index as Map<String, dynamic>);
-            })
+        body:FutureBuilder<List<dynamic>>(
+            future: DataClass().getTransactions(currentUser['id']),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<dynamic>>snapshot){
+              if(snapshot.hasData){
+                return ListView.builder(
+                    itemCount :listTransactionEffect.length ,
+                    itemBuilder:(context, index){
+                      return itemList( listTransactionEffect[index] as Map<String, dynamic>);
+                    });
+              }
+              else {
+                return const CircularProgressIndicator();
+              }
+            }
+        ),
     );
   }
 
@@ -39,9 +54,10 @@ class ListTransactionState extends State<ListTransaction> {
 
             hoverColor: Colors.transparent,),
           child:  ExpansionTile(
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
             iconColor: Colors.blueAccent,
             collapsedIconColor: Colors.blueAccent,
-            childrenPadding:const EdgeInsets.only(right: 10,bottom: 10,left: 20,top: 10),
+            childrenPadding:const EdgeInsets.only(right: 10,bottom: 10,left: 50,top: 10),
             shape:const Border(),
             title: Row(
                 children: [
@@ -53,20 +69,24 @@ class ListTransactionState extends State<ListTransaction> {
                             padding: const EdgeInsets.all(8.0),
                             child: Image.asset('images/6.png',width: 50),
                           ),
-                          Expanded(child: Text(item['projet_destinataire'])),
+                          Expanded(child: Text(item['projet_destinataire'],style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 17),)),
                         ],
                       ),
                     ),
                   ),
-                  Text(item['created_at'])
+                  Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: const Color(
+                      0xff838080)))
                 ]
             ),
             children: [
               Padding(
                 padding:const EdgeInsets.only( bottom: 15.0),
-                child: Text(item['objet']),
+                child: Text(item['objet'],style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16)),
               ),
-              Row(children: [const Text('Montant : '),Text(item['montant']),],
+              Row(children: [
+                const Text('Montant : ',style:  TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                Text("${item['montant']} FCFA",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: const Color(
+                    0xff838080)),),],
               ),
             ]
           ),

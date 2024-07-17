@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:projet_memoire/get_image.dart';
 import 'package:projet_memoire/get_list.dart';
 import 'dart:convert';
+import 'app_bar.dart';
 import 'entre.dart';
 import 'data_class.dart';
 
@@ -45,7 +46,7 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
   Widget build(BuildContext context) {
 
     return Scaffold(
-
+      appBar:  const AppBarWidget( menu:'/menuProject' ),
       backgroundColor: Colors.white,
       body: Center(
         child: Form(

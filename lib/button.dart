@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-Padding loginButton(String text,String route, BuildContext context) {
+Widget buttonWidget(String text, VoidCallback onTap, BuildContext context) {
 
   TextStyle textStyle=const TextStyle(
       color: Colors.white,
@@ -11,24 +11,26 @@ Padding loginButton(String text,String route, BuildContext context) {
       wordSpacing: 5,
       letterSpacing: 3);
 
-  return Padding(
-    padding: const EdgeInsets.only(left: 50,right: 50 , bottom: 20),
+  return  Padding(
+    padding: const EdgeInsets.only(top: 15.0),
     child: Row(
-      children: [
-        Expanded(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.lightBlue
-            ),
+        children: [
+          Expanded(
+            child: ElevatedButton(
 
-            onPressed: () {
-              Navigator.pushNamed(context, route);
-            },
-            child: Text(text,style: textStyle),
-          ),
-        ),
-      ],
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding:const  EdgeInsets.only(top: 15, bottom: 15),
+                  elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
+              onPressed: onTap,
+              child: Text(text,style: textStyle),
+            ),
+          )
+       ]
     ),
   );
 }

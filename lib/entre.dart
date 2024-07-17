@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-Padding entryfield (String  text,String type,RegExp express,TextEditingController control) {
+Widget entryfield (String  text,String type,RegExp express,TextEditingController control) {
 
   late Widget aide ;
 
@@ -12,6 +12,7 @@ Padding entryfield (String  text,String type,RegExp express,TextEditingControlle
           controller: control,
           obscureText: type == 'password',
           decoration:  InputDecoration(
+              prefixIcon:const Icon(Icons.email_outlined,color: Colors.blueAccent,) ,
               labelText: text,
               border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0 )),
@@ -40,23 +41,7 @@ Padding entryfield (String  text,String type,RegExp express,TextEditingControlle
       );
     }
 
-  return Padding(
-    padding: const EdgeInsets.only(
-        top: 0, bottom: 20),
-    child: Container(
-      width: 350,
-      height: 60,
-      decoration: BoxDecoration(
-        color:  Colors.white,
-        borderRadius:  BorderRadius.circular(20),
-        boxShadow:const  [BoxShadow(
-            color: Colors.grey,
-            offset: Offset(2, 2),
-            blurRadius: 10)],
-      ),
-      child: aide,
-    ),
-  );
+  return   aide;
 
 }
 

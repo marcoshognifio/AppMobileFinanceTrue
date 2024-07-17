@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:projet_memoire/button.dart';
 import 'dart:convert';
 import 'data_class.dart';
 import 'entre.dart';
@@ -44,6 +45,24 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
+  actionFunction() async{
+      if (formKey.currentState!.validate()) {
+
+        Map<String,dynamic> request = {
+          'email' : emailController.text,
+          'password' : passwordController.text
+        };
+
+        final uri = Uri.parse("$url/api/user/login");
+        final response = await http.post(uri,body : request);
+        final Map<String, dynamic> data = json.decode(response.body);
+        if(data['success'] == true){
+          currentUser = data['user'];
+          Navigator.pushNamed(context,'/user/projects');
+        }
+
+      }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -61,43 +80,7 @@ class _LoginState extends State<Login> {
                   children: [
                     entryfield('votre email','email',RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'), emailController),
                     entryfield('votre mot de passe','password',RegExp(''), passwordController),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                //fixedSize: const Size(350, 40),
-                                  elevation: 5,
-                                  backgroundColor: Colors.blue
-                              ),
-                              onPressed: () async {
-                                if (formKey.currentState!.validate()) {
-                          
-                                  Map<String,dynamic> request = {
-                                    'email' : emailController.text,
-                                    'password' : passwordController.text
-                                  };
-
-                                  final uri = Uri.parse("$url/api/user/login");
-                                  final response = await http.post(uri,body : request);
-                                  final Map<String, dynamic> data = json.decode(response.body);
-                                  if(data['success'] == true){
-                                    currentUser = data['user'];
-                                    Navigator.pushNamed(context,'/user/projects');
-                                  }
-
-                                }
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text('Valider',style: textStyle),
-                              ),
-                            ),
-                        ),
-
-                      ],
-                    ),
+                    buttonWidget('Valider', actionFunction, context)
                   ]
               ),
             )
