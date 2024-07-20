@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projet_memoire/add_depense.dart';
-import 'package:projet_memoire/connection.dart';
 import 'package:projet_memoire/data_class.dart';
 import 'package:projet_memoire/inscription.dart';
 import 'package:projet_memoire/add_article.dart';
+import 'package:projet_memoire/connection.dart';
 import 'package:projet_memoire/project_index.dart';
 import 'package:projet_memoire/transaction_between_projects.dart';
 import 'package:projet_memoire/user_index.dart';
-import 'package:projet_memoire/welcome_page.dart';
-
 import 'list_costs.dart';
 import 'list_transaction.dart';
-import 'login.dart';
 import 'menu.dart';
 void main() {
   runApp(const MyApp());
@@ -27,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Finance True App',
       onGenerateRoute:(settings)=>RouteGenerator.generatorRoute(settings),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/login',
     );
   }
 }
@@ -36,12 +33,12 @@ class RouteGenerator {
   static Route<dynamic> ?generatorRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => const HomePage() );//WelcomePage());
+        return MaterialPageRoute(builder: (context) => const ConnectionPage() );//WelcomePage());
 
       case '/login':
         return PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>const Login(),
+            pageBuilder:(context, animation, secondAnimation)=>const ConnectionPage(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
               var begin=const Offset(0.0, 1.0);
               var end=const Offset(0.0, 0.0);
@@ -49,16 +46,6 @@ class RouteGenerator {
               return SlideTransition(position: animation.drive((tween)),child: child);
             });
 
-      case '/inscription':
-        return PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>const Inscription(),
-            transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
-              var end=const Offset(0.0, 0.0);
-              var tween=Tween(begin: begin,end:end);
-              return SlideTransition(position: animation.drive((tween)),child: child);
-            });
 
       case '/project/addArticle':
         return PageRouteBuilder(

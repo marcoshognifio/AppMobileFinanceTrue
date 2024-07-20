@@ -15,6 +15,11 @@ class ListProjectUser extends StatefulWidget {
 class ListProjectUserState extends State<ListProjectUser> {
 
   @override
+  void initState() {
+    super.initState();
+    DataClass().getProjectsUser(currentUser['id']);
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const AppBarWidget( menu: '/menuUser'),
@@ -67,7 +72,6 @@ class ProjectWidget extends StatelessWidget {
               },
         )
     );
-
 
   }
 

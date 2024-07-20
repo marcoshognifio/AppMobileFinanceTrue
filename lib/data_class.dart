@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 const String url = "http://127.0.0.1:8000";
-List<dynamic>  listProjectUser=[],listUnderProjects = [],listTransactionEffect=[],listTransactionGet=[],
+List<dynamic>  listProjectUser=[],listProjectAdminUser=[],listUnderProjects = [],listTransactionEffect=[],listTransactionGet=[],
                 listCostsGet=[];
 List<Map<String,dynamic>>listArticles=[];
 List menuUserItems = [['Creer un projet','/createProject'],['Projets crées','/projectsCreates'],
@@ -25,7 +25,9 @@ class DataClass {
 
     final uri = Uri.parse("$url/api/user/$id/projets");
     final response = await http.get(uri);
-    listProjectUser = json.decode(response.body) ;
+    final  Map<String, dynamic> A= json.decode(response.body);
+    listProjectUser = A['projets_crees'] ;
+    listProjectAdminUser = A['projets_administres'];
     return [];
   }
 

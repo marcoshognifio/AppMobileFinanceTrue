@@ -49,3 +49,51 @@ Future<void> _pickImage() async {
   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
 }
+
+Widget entryField (String  text,String type,RegExp express,TextEditingController control) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10.0, top: 15),
+    child: SizedBox(
+      width: 350,
+      child: TextFormField(
+
+        controller: control,
+        obscureText: type == 'password',
+        decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hoverColor: Colors.white,
+            labelText: text,
+            border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderSide: BorderSide(
+                    width: 0,
+                    style: BorderStyle.none
+                )
+            )
+        ),
+        validator: (value) {
+          if (value!.isEmpty || !express.hasMatch(value)) {
+            return 'Ce champ est obligatoire';
+          }
+          else {
+            return null;
+          }
+        },
+      ),
+    ),
+  );
+}
+
+Widget navigationBarUser(){
+  return BottomNavigationBar(items: const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.create_new_folder_rounded),
+      label: "Projets créés"
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.create_new_folder_rounded),
+        label: "Projets administrés"
+    )
+  ]);
+}

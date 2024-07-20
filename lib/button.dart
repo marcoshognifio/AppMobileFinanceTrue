@@ -13,24 +13,27 @@ Widget buttonWidget(String text, VoidCallback onTap, BuildContext context) {
 
   return  Padding(
     padding: const EdgeInsets.only(top: 15.0),
-    child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton(
+    child: SizedBox(
+      width: 350,
+      child: Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
 
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  padding:const  EdgeInsets.only(top: 15, bottom: 15),
-                  elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    padding:const  EdgeInsets.only(top: 15, bottom: 15),
+                    elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                 ),
+                onPressed: onTap,
+                child: Text(text,style: textStyle),
               ),
-              onPressed: onTap,
-              child: Text(text,style: textStyle),
-            ),
-          )
-       ]
+            )
+         ]
+      ),
     ),
   );
 }

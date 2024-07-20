@@ -5,7 +5,7 @@ import 'package:projet_memoire/get_image.dart';
 import 'package:projet_memoire/get_list.dart';
 import 'dart:convert';
 import 'app_bar.dart';
-import 'entre.dart';
+import 'components.dart';
 import 'data_class.dart';
 
 

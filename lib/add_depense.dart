@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_memoire/data_class.dart';
 import 'package:http/http.dart' as http;
-import 'entre.dart';
+import 'components.dart';
 import 'app_bar.dart';
 
 class AddSpent extends StatefulWidget {
