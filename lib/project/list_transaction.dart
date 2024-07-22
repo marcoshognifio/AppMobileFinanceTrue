@@ -18,18 +18,18 @@ class ListTransactionState extends State<ListTransaction> {
   Widget build(BuildContext context) {
 
     return   Scaffold(
-      bottomNavigationBar: NavbarUser(),
+      bottomNavigationBar:const NavbarUser(),
       appBar:  const AppBarWidget( menu:'/menuProject' ),
         backgroundColor: Colors.white,
         body:FutureBuilder<List<dynamic>>(
-            future: DataClass().getTransactions(currentUser['id']),
+            future: DataClass().getTransactionsDo(currentUser['id']),
             builder: (BuildContext context,
                 AsyncSnapshot<List<dynamic>>snapshot){
               if(snapshot.hasData){
                 return ListView.builder(
-                    itemCount :listTransactionEffect.length ,
+                    itemCount :listTransactionsDo.length ,
                     itemBuilder:(context, index){
-                      return itemList( listTransactionEffect[index] as Map<String, dynamic>);
+                      return itemList( listTransactionsDo[index] as Map<String, dynamic>);
                     });
               }
               else {
@@ -75,7 +75,7 @@ class ListTransactionState extends State<ListTransaction> {
                       ),
                     ),
                   ),
-                  Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: const Color(
+                  Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Color(
                       0xff838080)))
                 ]
             ),
@@ -86,7 +86,7 @@ class ListTransactionState extends State<ListTransaction> {
               ),
               Row(children: [
                 const Text('Montant : ',style:  TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                Text("${item['montant']} FCFA",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: const Color(
+                Text("${item['montant']} FCFA",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color:  Color(
                     0xff838080)),),],
               ),
             ]

@@ -23,7 +23,7 @@ class ListUnderProjectState extends State<ListUnderProject> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavbarUser(),
+      bottomNavigationBar: const NavbarUser(),
       appBar: const AppBarWidget( menu:'/menuProject' ),
       body: FutureBuilder<List<dynamic>>(
           future: DataClass().getUnderProjects(currentProject['id']),

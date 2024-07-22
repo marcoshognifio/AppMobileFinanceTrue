@@ -6,6 +6,8 @@ import 'package:projet_memoire/project/list_costs.dart';
 import 'package:projet_memoire/project/list_transaction.dart';
 import 'package:projet_memoire/project/project_index.dart';
 import 'package:projet_memoire/project/transaction_between_projects.dart';
+import 'package:projet_memoire/project/transactions_do.dart';
+import 'package:projet_memoire/project/transactions_get.dart';
 import 'package:projet_memoire/user/connection.dart';
 import 'package:projet_memoire/user/user_index.dart';
 
@@ -13,7 +15,7 @@ import 'components/data_class.dart';
 import 'components/menu.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp() );
 }
 
 class MyApp extends StatelessWidget {
@@ -51,7 +53,7 @@ class RouteGenerator {
       case '/user/projects_create':
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
-            ListProjectUser(listProjectsBuild: listProjectUser,),
+            ListProjectUser(listProjectsBuild: listProjectUser,showButtonAdd: true,),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
@@ -60,7 +62,7 @@ class RouteGenerator {
       case '/user/projects_admin':
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
-            ListProjectUser(listProjectsBuild: [listProjectAdminUser]),
+            ListProjectUser(listProjectsBuild: [listProjectAdminUser],showButtonAdd: false,),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
@@ -121,6 +123,30 @@ class RouteGenerator {
               return SlideTransition(position: animation.drive((tween)),child: child);
             });
 
+      case 'project/transactionGet':
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=>
+            const ListTransactionsGet(),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
+      case 'project/transactionDo':
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=>
+            const ListTransactionsDo(),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
       case '/project/projectBalanceSheet':
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
@@ -146,29 +172,6 @@ class RouteGenerator {
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
-            });
-
-      case '/menuUser':
-        return PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>
-            Drawer(child:MenuWidget(menu:menuUserItems),),
-            transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(-1, 0);
-              var end=const Offset(0.0, 0.0);
-              var tween=Tween(begin: begin,end:end);
-              return SlideTransition(position: animation.drive((tween)),child: child);
-            });
-
-      case '/menuProject':
-        return PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>Drawer(child:MenuWidget(menu:menuProjectItems)),
-            transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(-1, 0);
-              var end=const Offset(0.0, 0.0);
-              var tween=Tween(begin: begin,end:end);
-              return SlideTransition(position: animation.drive((tween)),child: child);
             });
     }
     return null;

@@ -1,8 +1,6 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet_memoire/components/button.dart';
@@ -24,6 +22,7 @@ class LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final GlobalKey<LoginPageState> myWidgetKey = GlobalKey();
 
   @override
   void dispose() {
@@ -44,8 +43,8 @@ class LoginPageState extends State<LoginPage> {
       final Map<String, dynamic> data = json.decode(response.body);
       if (data['success'] == true) {
         currentUser = data['user'];
-        DataClass().getProjectsUser(currentUser['id']);
-        Navigator.pushNamed(context, '/user/projects_create');
+       await DataClass().getProjectsUser(currentUser['id']);
+        await Navigator.pushNamed(context, '/user/projects_create');
       }
     }
   }

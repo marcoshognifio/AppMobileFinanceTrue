@@ -5,15 +5,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class NavbarUser extends StatelessWidget {
-  NavbarUser({super.key});
-  TextStyle textStyle = const TextStyle(
+  const NavbarUser({super.key});
+  final TextStyle textStyle = const TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
-      fontSize: 20)   ;
+      fontSize: 15)   ;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(bottom: 15),
         decoration: const BoxDecoration(
          color: Colors.blueAccent,
         boxShadow: [
@@ -39,22 +40,32 @@ class NavbarUser extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.home, color: Colors.white),
-                  onPressed: () {Navigator.pushNamed(context, '/user/projects_create');},
+                Container(
+                  padding: const EdgeInsets.all(0),
+                  height: 30,
+                  child: IconButton(
+                    icon: const Icon(Icons.home, color: Colors.white),
+                    onPressed: () {Navigator.pushNamed(context, '/user/projects_create');},
+                  ),
                 ),
                 Text('Projets créés',style: textStyle,)
               ],
             ),
 
             Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.home, color: Colors.white),
-                  onPressed: () {Navigator.pushNamed(context, '/user/projects_admin');},
-                ),
-                const Text('Projets administrés')
+                Container(
+                    padding: const EdgeInsets.all(0),
+                    height: 30,
+                     child: IconButton(
+                       icon: const Icon(Icons.home, color: Colors.white),
+                       onPressed: () {Navigator.pushNamed(context, '/user/projects_admin');},
+                     ), )  ,
+
+                Text('Projets administrés',style: textStyle,)
               ],
             )
           ],

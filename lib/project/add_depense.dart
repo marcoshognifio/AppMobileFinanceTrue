@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -54,7 +53,6 @@ class AddSpentState extends State<AddSpent> {
     data['depense'] = [spend];
     final uri = Uri.parse("$url/api/projet/${currentProject['id']}/depense/store");
     final response = await http.post(uri,body : jsonEncode(data),headers: {"Content-Type": "application/json"},);
-    print(json.decode(response.body));
   }
 
 
@@ -67,10 +65,10 @@ class AddSpentState extends State<AddSpent> {
       body:ListView.builder(
               itemCount :listArticles.length ,
               itemBuilder:(context, index){
-                return itemList( listArticles[index] as Map<String, dynamic>);
+                return itemList( listArticles[index]);
                   }
             ),
-      floatingActionButton:  Padding(
+      floatingActionButton: Padding(
         padding: const  EdgeInsets.only(left: 30.0) ,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +119,7 @@ class AddSpentState extends State<AddSpent> {
                   padding: const EdgeInsets.only(top:17.0),
                   child: Row(children: [
                     const Text('Prix : ',style:  TextStyle(fontWeight: FontWeight.w800,fontSize: 20),),
-                    Text("${formatter.format(int.parse(item['prix']))} FCFA",style: const TextStyle(fontWeight: FontWeight.w800,fontSize:18,color: const Color(
+                    Text("${formatter.format(int.parse(item['prix']))} FCFA",style: const TextStyle(fontWeight: FontWeight.w800,fontSize:18,color: Color(
                         0xff838080)),),],
                   ),
                 ),

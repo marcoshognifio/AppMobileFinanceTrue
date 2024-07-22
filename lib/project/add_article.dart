@@ -1,9 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import '../components/button.dart';
 import '../components/components.dart';
 import '../components/data_class.dart';
@@ -53,7 +49,6 @@ class AddArticleState extends State<AddArticle> {
       };
 
       listArticles.add(article);
-      print(listArticles);
       Navigator.pushNamed(context,'/project/addSpend');
     }
   }

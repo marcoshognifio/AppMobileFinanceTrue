@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projet_memoire/components/get_image.dart';
 import 'package:projet_memoire/project/get_list.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
 import 'dart:convert';
@@ -47,7 +45,7 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
   Widget build(BuildContext context) {
 
     return Scaffold(
-      bottomNavigationBar: NavbarUser(),
+      bottomNavigationBar: const NavbarUser(),
       appBar:  const AppBarWidget( menu:'/menuProject' ),
       backgroundColor: Colors.white,
       body: Center(

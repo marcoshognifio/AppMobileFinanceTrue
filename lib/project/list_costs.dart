@@ -19,7 +19,7 @@ class ListCostsState extends State<ListCosts> {
   Widget build(BuildContext context) {
 
     return   Scaffold(
-      bottomNavigationBar: NavbarUser(),
+      bottomNavigationBar: const NavbarUser(),
       appBar:  const AppBarWidget( menu:'/menuProject' ),
       backgroundColor: Colors.white,
       body:FutureBuilder<List<dynamic>>(
@@ -132,7 +132,7 @@ class ListCostsState extends State<ListCosts> {
             padding: const EdgeInsets.only(top:17.0),
             child: Row(children: [
               const Text('Prix : ',style:  TextStyle(fontWeight: FontWeight.w800,fontSize: 18),),
-              Text("${formatter.format(item['prix'])} FCFA",style: const TextStyle(fontWeight: FontWeight.w800,fontSize:18,color: const Color(
+              Text("${formatter.format(item['prix'])} FCFA",style: const TextStyle(fontWeight: FontWeight.w800,fontSize:18,color:  Color(
                   0xff838080)),),],
             ),
           ),

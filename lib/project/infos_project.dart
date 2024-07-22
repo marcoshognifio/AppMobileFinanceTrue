@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_memoire/components/data_class.dart';
-
 import 'package:projet_memoire/components/app_bar.dart';
+import 'package:projet_memoire/components/menu.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
 
 class  InfoProject extends StatefulWidget {
@@ -29,7 +28,7 @@ class _InfoProjectState extends State<InfoProject> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: NavbarUser(),
+        bottomNavigationBar: const NavbarUser(),
         appBar:  const AppBarWidget( menu:'/menuProject' ),
         backgroundColor: Colors.white,
         body:SingleChildScrollView(
@@ -38,7 +37,7 @@ class _InfoProjectState extends State<InfoProject> {
             children: [
 
               Text('Infos Projet',style: titleStyle),
-              const Divider(height: 20,color: Colors.grey,thickness: 2,),
+              const Divider(height: 20,color: Colors.grey,thickness: 5,),
               Container(
                 margin: const EdgeInsets.only(left: 20,right: 20),
                 padding: const EdgeInsets.only(top: 10),
@@ -69,7 +68,7 @@ class _InfoProjectState extends State<InfoProject> {
                 child: Column(
                   children: [
                     Text('Les Sous Projets',style: titleStyle),
-                    const Divider(height: 20,color: Colors.grey,thickness: 2,),
+                    const Divider(height: 20,color: Colors.grey,thickness: 5,),
                   ],
                 ),
               ),
@@ -81,6 +80,10 @@ class _InfoProjectState extends State<InfoProject> {
 
             ],
           ),
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(0),
+            child:MenuWidget(menuOptions: menuProjectItems),
         )
     );
   }//

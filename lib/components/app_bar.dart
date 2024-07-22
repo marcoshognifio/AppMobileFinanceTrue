@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'menu.dart';
-
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String menu;
 
@@ -25,7 +23,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: const Icon(Icons.menu,color: Colors.white,size: 40,),
             onPressed: (){
-              print('bonjour');
               Navigator.pushNamed(context,menu);
             }
           )
