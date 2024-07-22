@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projet_memoire/data_class.dart';
+import 'package:projet_memoire/components/data_class.dart';
+import 'package:projet_memoire/components/navbar_user.dart';
 
-import 'app_bar.dart';
+import 'package:projet_memoire/components/app_bar.dart';
 
 class ListTransaction extends StatefulWidget {
   const ListTransaction({super.key});
@@ -17,7 +18,7 @@ class ListTransactionState extends State<ListTransaction> {
   Widget build(BuildContext context) {
 
     return   Scaffold(
-
+      bottomNavigationBar: NavbarUser(),
       appBar:  const AppBarWidget( menu:'/menuProject' ),
         backgroundColor: Colors.white,
         body:FutureBuilder<List<dynamic>>(

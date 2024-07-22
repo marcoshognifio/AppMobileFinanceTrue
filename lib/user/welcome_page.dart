@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'button.dart';
+import 'package:projet_memoire/components/button.dart';
 
 
 class WelcomePage extends StatefulWidget {

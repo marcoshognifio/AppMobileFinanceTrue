@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:projet_memoire/login.dart';
-import 'package:projet_memoire/inscription.dart';
+import 'package:projet_memoire/user/login.dart';
+import 'package:projet_memoire/user/inscription.dart';
 
 
 class ConnectionPage extends StatefulWidget {

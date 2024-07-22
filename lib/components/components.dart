@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -83,17 +82,4 @@ Widget entryField (String  text,String type,RegExp express,TextEditingController
       ),
     ),
   );
-}
-
-Widget navigationBarUser(){
-  return BottomNavigationBar(items: const [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.create_new_folder_rounded),
-      label: "Projets créés"
-    ),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.create_new_folder_rounded),
-        label: "Projets administrés"
-    )
-  ]);
 }

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:projet_memoire/data_class.dart';
 import 'package:http/http.dart' as http;
-import 'components.dart';
-import 'app_bar.dart';
+
+import '../components/app_bar.dart';
+import '../components/components.dart';
+import '../components/data_class.dart';
 
 class AddSpent extends StatefulWidget {
   const AddSpent({super.key});

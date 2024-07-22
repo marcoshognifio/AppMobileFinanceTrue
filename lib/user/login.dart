@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'button.dart';
-import 'components.dart';
-import 'data_class.dart';
+import 'package:projet_memoire/components/button.dart';
+import 'package:projet_memoire/components/components.dart';
+import 'package:projet_memoire/components/data_class.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -44,7 +44,8 @@ class LoginPageState extends State<LoginPage> {
       final Map<String, dynamic> data = json.decode(response.body);
       if (data['success'] == true) {
         currentUser = data['user'];
-        Navigator.pushNamed(context, '/user/projects');
+        DataClass().getProjectsUser(currentUser['id']);
+        Navigator.pushNamed(context, '/user/projects_create');
       }
     }
   }

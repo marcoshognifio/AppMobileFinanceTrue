@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:projet_memoire/data_class.dart';
+import 'package:projet_memoire/components/data_class.dart';
 
-import 'app_bar.dart';
+import 'package:projet_memoire/components/app_bar.dart';
+import 'package:projet_memoire/components/navbar_user.dart';
 
 class ListCosts extends StatefulWidget {
   const ListCosts({super.key});
@@ -18,7 +19,7 @@ class ListCostsState extends State<ListCosts> {
   Widget build(BuildContext context) {
 
     return   Scaffold(
-
+      bottomNavigationBar: NavbarUser(),
       appBar:  const AppBarWidget( menu:'/menuProject' ),
       backgroundColor: Colors.white,
       body:FutureBuilder<List<dynamic>>(

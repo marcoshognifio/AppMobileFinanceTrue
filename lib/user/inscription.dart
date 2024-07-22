@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:projet_memoire/get_image.dart';
+import 'package:projet_memoire/components/get_image.dart';
 import 'dart:convert';
-import 'button.dart';
-import 'components.dart';
-import 'data_class.dart';
+import 'package:projet_memoire/components/button.dart';
+import 'package:projet_memoire/components/components.dart';
+import 'package:projet_memoire/components/data_class.dart';
 
 
 class InscriptionPage extends StatefulWidget {
