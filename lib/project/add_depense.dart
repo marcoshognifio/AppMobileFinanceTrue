@@ -39,7 +39,8 @@ class AddSpentState extends State<AddSpent> {
         context: context,
         builder: (context) =>AlertDialog(
           title: const Text("Confirmation de la dépense"),
-          content:  entryfield('Objet de la depense','text',RegExp(r'^[a-zA-Z]+$'), objetController),
+          content:  EntryField(text:  'Objet de la depense',type: 'text',express: RegExp(r'^[a-zA-Z]+$'),
+              control: objetController,required: true,error: 'Votre entré doit etre constitué de lettre',),
           actions: [
             TextButton(onPressed: saveSpend, child: const Text("Valider"))
           ],

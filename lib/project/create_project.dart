@@ -1,20 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/button.dart';
 import '../components/components.dart';
 import '../components/data_class.dart';
+import 'package:http/http.dart' as http;
 
 
-class AddArticle extends StatefulWidget {
-  const AddArticle({super.key});
+class AddProject extends StatefulWidget {
+  const AddProject({super.key});
 
 
 
   @override
-  State<AddArticle> createState() => AddArticleState();
+  State<AddProject> createState() => AddProjectState();
 }
 
-class AddArticleState extends State<AddArticle> {
+class AddProjectState extends State<AddProject> {
 
   int a=0;
   TextStyle textStyle=const TextStyle(
@@ -28,28 +31,38 @@ class AddArticleState extends State<AddArticle> {
 
   final formKey=GlobalKey<FormState>();
   final nomController=TextEditingController();
-  final quantityController = TextEditingController();
-  final priceController=TextEditingController();
+  final descriptionController = TextEditingController();
+  final budgetController=TextEditingController();
+  //final imageController=TextEditingController();
+  final dateEndController=TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     nomController.dispose();
-    quantityController.dispose();
-    priceController.dispose();
+    descriptionController.dispose();
+    budgetController.dispose();
+    dateEndController.dispose();
   }
 
   actionFunction() async{
     if (formKey.currentState!.validate()) {
 
-      Map<String,dynamic> article = {
-        'nom' : nomController.text,
-        'quantite' : quantityController.text,
-        'prix' : priceController.text,
-      };
+      Map<String,dynamic> project ={};
+      project['nom'] = nomController.text;
+      descriptionController.text.isNotEmpty?project['description']=descriptionController.text:true==true;
+      budgetController.text.isNotEmpty?project['budget_prevu']=budgetController.text:true==true;
+      dateEndController.text.isNotEmpty?project['date_fin']=dateEndController.text:true==true;
+      project['createur_id'] = currentUser['id'];
+      project['administrateur_id'] = currentProject['id'];
 
-      listArticles.add(article);
-      Navigator.pushNamed(context,'/project/addSpend');
+      final uri = Uri.parse("$url/api/projet/create_projet");
+      final response = await http.post(uri,body : project);
+      print(response.body);
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      Navigator.pushNamed(context,'/user/projects_create');
     }
   }
 
@@ -63,18 +76,18 @@ class AddArticleState extends State<AddArticle> {
 
     return Scaffold(
 
-      backgroundColor: Colors.white,
-      body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-        ),
-        child: Column(
-          children: [
-            header(),
-            content(),
-          ],
-        ),
-      )
+        backgroundColor: Colors.white,
+        body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
+          ),
+          child: Column(
+            children: [
+              header(),
+              content(),
+            ],
+          ),
+        )
     );
 
   }
@@ -90,7 +103,7 @@ class AddArticleState extends State<AddArticle> {
               Icon(Icons.label_important, color: Colors.white,),
               Padding(
                 padding:  EdgeInsets.all(15.0),
-                child: Text('Ajouter un article',
+                child: Text('Ajouter un Project',
                   style:
                   TextStyle(color: Colors.white,
                       fontSize: 20,
@@ -123,7 +136,7 @@ class AddArticleState extends State<AddArticle> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  "Ajouter un article a votre catalogue de dépense",
+                  "Ajouter un Project a votre catalogue de dépense",
                   style: GoogleFonts.actor(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -135,12 +148,14 @@ class AddArticleState extends State<AddArticle> {
                   key: formKey,
                   child: Column(
                     children: [
-                      EntryField(text:  'Nom',type:  'text',express:  RegExp(r'^[a-zA-Z ]+([0-9]+)?[a-zA-Z ]+$'),
-                          control: nomController,required: true,error: 'le nom entré n\'est pas valide'),
-                      EntryField(text: 'Quantité de l\'article',type:  'text',express:  RegExp(''),
-                          control: quantityController,required:  true,error:  ''),
-                      EntryField(text: 'Le prix de l\'article',type: 'text',express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
-                          control: quantityController,required: true,error: 'Entrez une valeurs numerique'),
+                      EntryField( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z]+([0-9]+)?[a-zA-Z]+$'),
+                                  control: nomController,required: true,error: 'Entre invalide'),
+                      EntryField( text: 'Description du projet(Facultative)',type:  'text',express:  RegExp(''),
+                                  control:  descriptionController,required: false,error: ''),
+                      EntryField(text:  'Le budget prevu(Facultative)',type:  'text',express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
+                                  control: budgetController,required: false,error:  'Entrez une valeur numerique'),
+                      EntryField(text: 'Date fin projet(Facultative)',type: 'text',express: RegExp(''),
+                                  control: descriptionController,required: false,error:  ''),
                       buttonWidget('Se connecter', actionFunction, context),
                     ],
                   ),

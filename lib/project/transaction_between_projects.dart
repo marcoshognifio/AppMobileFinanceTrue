@@ -58,8 +58,10 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     getProjectRecipient =  GetList(listItems: DataClass().getItemsUnderProjects()),
-                    entryfield('Objet de la transaction','text',RegExp(r''), objectController),
-                    entryfield('Montant de la transcation','text',RegExp(r'^[0-9]+\.?[0-9]+$'), montantController),
+                    EntryField(text: 'Objet de la transaction',type: 'text',express:  RegExp(r''),control: objectController,
+                              required: true,error: ''),
+                    EntryField(text: 'Montant de la transcation',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
+                              control:  montantController,required: true,error: 'Entrez une valeur numerique'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

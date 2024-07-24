@@ -112,11 +112,11 @@ class LoginPageState extends State<LoginPage> {
                   key: formKey,
                   child: Column(
                     children: [
-                      entryField('votre email', 'email',
-                          RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
-                          emailController),
-                      entryField('votre mot de passe', 'password', RegExp(''),
-                          passwordController),
+                      EntryField(text:'votre email',type:  'email',
+                          express: RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
+                          control: emailController,required:true,error:  'Entrez un email'),
+                      EntryField(text: 'votre mot de passe',type: 'password',express: RegExp(''),
+                          control:  passwordController,required: true,error:  ""),
                       const Padding(
                         padding: EdgeInsets.only(top: 10.0, right: 20),
                         child: Row(

@@ -22,8 +22,7 @@ class _MenuWidgetState extends State<MenuWidget> {
           child: const Icon(Icons.more_vert,color: Colors.white,),
         ),
         onSelected: (value) async {
-          await DataClass().getProjectsUser(currentUser['id']);
-          await Navigator.pushNamed(context, '/user/projects_create');
+          await Navigator.pushNamed(context, widget.menuOptions[value][1]);
         },
         itemBuilder: (BuildContext context) => listMenuItem()
     );
@@ -42,5 +41,22 @@ class _MenuWidgetState extends State<MenuWidget> {
     }
 
     return result;
+  }
+
+
+  listActionsMenuProject(int item) async{
+
+    switch (item) {
+      case 3:
+        await DataClass().getTransactionsGet(currentProject['id']);
+
+      case 4:
+        await DataClass().getTransactionsDo(currentProject['id']);
+
+      case 5:
+        await DataClass().getCosts(currentProject['id']);
+
+    }
+
   }
 }

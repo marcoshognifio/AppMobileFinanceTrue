@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_memoire/components/data_class.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
 
@@ -22,7 +23,7 @@ class ListTransactionsGetState extends State<ListTransactionsGet> {
       appBar:  const AppBarWidget( menu:'/menuProject' ),
       backgroundColor: Colors.white,
       body:FutureBuilder<List<dynamic>>(
-          future: DataClass().getTransactionsGet(currentUser['id']),
+          future: DataClass().getTransactionsGet(currentProject['id']),
           builder: (BuildContext context,
               AsyncSnapshot<List<dynamic>>snapshot){
             if(snapshot.hasData){
@@ -54,45 +55,32 @@ class ListTransactionsGetState extends State<ListTransactionsGet> {
               splashColor: Colors.transparent,
 
               hoverColor: Colors.transparent,),
-            child:  ExpansionTile(
-                expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                iconColor: Colors.blueAccent,
-                collapsedIconColor: Colors.blueAccent,
-                childrenPadding:const EdgeInsets.only(right: 10,bottom: 10,left: 50,top: 10),
-                shape:const Border(),
-                title: Row(
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('images/6.png',width: 50),
-                              ),
-                              Expanded(child: Text(item['projet_destinataire'],style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 17),)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Color(
-                          0xff838080)))
-                    ]
-                ),
-                children: [
-                  Padding(
-                    padding:const EdgeInsets.only( bottom: 15.0),
-                    child: Text(item['objet'],style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16)),
-                  ),
-                  Row(children: [
-                    const Text('Montant : ',style:  TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                    Text("${item['montant']} FCFA",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: Color(
-                        0xff838080)),),],
-                  ),
-                ]
+            child:ListTile(
+              dense: true,
+              contentPadding: const EdgeInsets.all(0),
+              leading: SizedBox(width: 50, child: Image.asset('images/6.png',width: 100)),
+              title:  Row(
+                  children: [
+                    Expanded(
+                      child: Expanded(child: Text(item['objet'],
+                          style:GoogleFonts.lato(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right:  10.0),
+                      child: Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w900,fontSize: 18,color: Color(
+                          0xff838080))),
+                    )
+                  ]
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text("${formatter.format(item['montant'])} FCFA",
+                    style: const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15)),
+              ),
             ),
           )
       ),
     );
   }
 }
+

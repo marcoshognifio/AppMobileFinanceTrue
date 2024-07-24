@@ -1,38 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-Widget entryfield (String  text,String type,RegExp express,TextEditingController control) {
+class EntryField extends StatefulWidget {
+  EntryField({super.key,required this.text,required this.type,required this.express,
+              required this.control,required this.required,required this.error});
+  String  text, type;
+  RegExp express;
+  TextEditingController control;
+  bool required;
+  String error;
 
-  late Widget aide ;
+  @override
+  State<EntryField> createState() => _EntryFieldState();
+}
 
-    if(type != "image")
-    {
-        aide =  TextFormField(
-          controller: control,
-          obscureText: type == 'password',
-          decoration:  InputDecoration(
-              prefixIcon:const Icon(Icons.email_outlined,color: Colors.blueAccent,) ,
-              labelText: text,
+class _EntryFieldState extends State<EntryField> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0, top: 15),
+      child: SizedBox(
+        width: 350,
+        child: TextFormField(
+          onTap: widget.type != 'date'? (){}:
+              ()async{
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+            );
+          },
+          controller: widget.control,
+          obscureText: widget.type == 'password',
+          decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              hoverColor: Colors.white,
+              labelText: widget.text,
               border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0 )),
-                  borderSide:  BorderSide(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(
                       width: 0,
                       style: BorderStyle.none
                   )
               )
           ),
           validator: (value) {
-            if(value!.isEmpty || !express.hasMatch(value)) {
-              return 'Ce champ est obligatoire';
-            }
-            else {
+            if(required == true )
+            {
+              if(value!.isEmpty){
+                return 'Ce champ est obligatoire';
+              }
+              if (!widget.express.hasMatch(value))
+              {
+                return widget.error;
+              }
               return null;
             }
+            else
+            {
+              if (value!.isNotEmpty && !widget.express.hasMatch(value))
+              {
+                return widget.error;
+              }
+              else {
+                return null;
+              }
+            }
           },
-        );
-    }
+        ),
+      ),
+    );
+  }
+}
 
-    else
+
+/*    else
     {
       aide  = const ElevatedButton(
         onPressed: _pickImage,
@@ -47,39 +91,5 @@ Widget entryfield (String  text,String type,RegExp express,TextEditingController
 Future<void> _pickImage() async {
   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-}
+}*/
 
-Widget entryField (String  text,String type,RegExp express,TextEditingController control) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 10.0, top: 15),
-    child: SizedBox(
-      width: 350,
-      child: TextFormField(
-
-        controller: control,
-        obscureText: type == 'password',
-        decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hoverColor: Colors.white,
-            labelText: text,
-            border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none
-                )
-            )
-        ),
-        validator: (value) {
-          if (value!.isEmpty || !express.hasMatch(value)) {
-            return 'Ce champ est obligatoire';
-          }
-          else {
-            return null;
-          }
-        },
-      ),
-    ),
-  );
-}

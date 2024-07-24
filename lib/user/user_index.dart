@@ -7,6 +7,7 @@ import 'package:projet_memoire/components/navbar_user.dart';
 
 import '../components/menu.dart';
 
+//ignore: must_be_immutable
 class ListProjectUser extends StatefulWidget {
   ListProjectUser({super.key,required this.listProjectsBuild,required this.showButtonAdd});
 
@@ -26,7 +27,7 @@ class ListProjectUserState extends State<ListProjectUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavbarUser(),
+      bottomNavigationBar:const NavbarUser(),
         appBar: const AppBarWidget( menu: '/menuUser'),
       body: FutureBuilder<List<dynamic>>(
         future: DataClass().getProjectsUser(currentUser['id']),
@@ -61,7 +62,7 @@ class ListProjectUserState extends State<ListProjectUser> {
   }
 }
 
-
+//ignore: must_be_immutable
 class FloatButton extends StatefulWidget {
   FloatButton({super.key,required this.controller});
   bool controller;

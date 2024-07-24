@@ -74,7 +74,7 @@ class _InfoProjectState extends State<InfoProject> {
               ),
               Container(
                 child: Column(
-                  children: listUnderProjects.map<Widget>((project) =>projectWidget(project as Map<String,dynamic>)).toList(),
+                  children: listUnderProjects.map<Widget>((project) =>ProjectWidget(data:  project as Map<String,dynamic>)).toList(),
                 ),
               )
 
@@ -105,26 +105,52 @@ class _InfoProjectState extends State<InfoProject> {
       ),
     );
   }
-  Widget projectWidget( Map data) {
-    project = data;
+}
+
+class ProjectWidget extends StatefulWidget {
+  const ProjectWidget({super.key,required this.data});
+  final  Map<String,dynamic> data;
+  @override
+  State<ProjectWidget> createState() => _ProjectWidgetState();
+}
+
+class _ProjectWidgetState extends State<ProjectWidget> {
+
+  actionFunction() async {
+    currentProject = widget.data;
+    await DataClass().getUnderProjects(currentProject['id']);
+    Navigator.pushNamed(context,'/project/Info');
+  }
+  @override
+  Widget build(BuildContext context) {
     return Card(
         margin: const EdgeInsets.all(10),
         elevation: 8,
         color: const Color(0xfff8f8dd),
         child: ListTile(
-            leading: Hero(
-                tag:"image-project${data['id']}",
-                child: Image.asset('images/6.png',width: 100)
+          leading: Hero(
+              tag:"image-project${widget.data['id']}",
+              child: Image.asset('images/6.png',width: 100)
+          ),
+          title:  Text(widget.data['nom'],
+            style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
+
+              children: [
+                const Text("Recette actuelle : ",style: TextStyle(
+                    color: Colors.black,fontSize: 15)),
+                const SizedBox(width: 10,),
+                Text("${formatter.format(widget.data['recette_actuelle'])} FCFA",
+                    style: const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15)),
+              ],
             ),
-            title:  Text(data['nom'],style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20),),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text("${data['administrateur_id']}",
-                  style: const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15)
-              ),
-            ),
-            trailing: const Icon(Icons.arrow_forward_ios_outlined),
-            onTap:actionFunction
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios_outlined),
+          onTap:actionFunction,
         )
     );
   }

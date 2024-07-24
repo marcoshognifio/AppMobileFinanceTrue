@@ -128,13 +128,15 @@ class InscriptionPageState extends State<InscriptionPage> {
               SizedBox(
                 child: Column(
                   children: [
-                    entryField('Nom','text',RegExp(r''), nomController),
-                    entryField('telephone','text',RegExp(''), telephoneController),
-                    entryField('votre email', 'email',
-                        RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
-                        emailController),
-                    entryField('votre mot de passe', 'password', RegExp(''),
-                        passwordController),
+                    EntryField(text:  'Nom',type:  'text',express:  RegExp(r''),
+                        control:  nomController,required:  true,error:  ''),
+                    EntryField(text: 'telephone',type: 'text',express: RegExp(r'^[0-9]+$'),
+                        control: telephoneController,required: true,error:  'Entrez des valeurs numeriques'),
+                    EntryField(text:  'votre email', type: 'email',
+                        express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
+                        control:  emailController,required:  true,error:  ''),
+                    EntryField(text:  'votre mot de passe',type:  'password',express:  RegExp(''),
+                       control:  passwordController,required: true,error:  ''),
 
                     Column(
                       children: [

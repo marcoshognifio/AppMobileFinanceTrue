@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 const String url = "http://127.0.0.1:8000";
 List<dynamic>  listProjectUser=[],listProjectAdminUser=[],listUnderProjects = [],
-        listTransactionsDo=[],listTransactionsGet=[],listTransactionsAmountGet=[],listCostsGet=[];
+        listTransactionsDo=[],listTransactionsGet=[],listTransactionsDoAmount=[],listCostsGet=[];
 List<Map<String,dynamic>>listArticles=[];
 
 NumberFormat formatter = NumberFormat.decimalPatternDigits(
@@ -18,10 +18,8 @@ NumberFormat formatter = NumberFormat.decimalPatternDigits(
 
 Map currentProject = {},currentUser = {};
 
-List menuUserItems = [['Creer un projet','/createProject'],
-                      ['Projets crées','/projectsCreates'],
-                      ['Projets administres','/projects_administries'],
-                      ['Transactions Récues','project/transactionGet']
+List menuUserItems = [['Creer un projet','/project/create'],
+                      ['Ajouter de fond','/project/Create'],
                       ];
 
 List menuProjectItems = [['Creer un sous-projet','/project/create_under_project'],
@@ -33,28 +31,6 @@ List menuProjectItems = [['Creer un sous-projet','/project/create_under_project'
                           ['Bilan du projet','/project/projectBalanceSheet']
                         ];
 
-
-List<Function()> listActions =[
-
-  ()async{
-
-  },
-  ()async{
-
-  },
-
-  ()async{
-    await DataClass().getTransactionsGet(currentProject['id']);
-  },
-
-  ()async{
-    await DataClass().getTransactionsDo(currentProject['id']);
-  },
-
-  ()async{
-  await DataClass().getCosts(currentProject['id']);
-  }
-];
 
 class DataClass {
 
@@ -78,11 +54,12 @@ class DataClass {
   }
 
   Future<List<Map>> getTransactionsDo( int id) async {
+
     final uri = Uri.parse("$url/api/projet/$id/transactions_effectuees");
     final response = await http.get(uri);
     final  Map<String, dynamic> A= json.decode(response.body) ;
     listTransactionsDo = A['transactions_effectuees'];
-    listTransactionsAmountGet = A['montants_transactions'];
+    listTransactionsDoAmount = A['montants_transactions'];
     return [];
   }
 
