@@ -61,15 +61,14 @@ class ListTransactionsGetState extends State<ListTransactionsGet> {
               leading: SizedBox(width: 50, child: Image.asset('images/6.png',width: 100)),
               title:  Row(
                   children: [
-                    Expanded(
-                      child: Expanded(child: Text(item['objet'],
+
+                      Expanded(child: Text(item['objet'],
                           style:GoogleFonts.lato(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900))),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right:  10.0),
-                      child: Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w900,fontSize: 18,color: Color(
-                          0xff838080))),
-                    )
+                      Padding(
+                        padding: const EdgeInsets.only(right:  20.0),
+                        child: Text(item['created_at'],style: const TextStyle(fontWeight: FontWeight.w900,fontSize: 15,color: Color(
+                            0xff838080))),
+                      )
                   ]
               ),
               subtitle: Padding(

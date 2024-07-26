@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:projet_memoire/components/button.dart';
+import '../components/button.dart';
 
 
 class WelcomePage extends StatefulWidget {
@@ -45,11 +45,11 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 50.0,right: 50.0,bottom: 20),
-                    child: buttonWidget("Se connecter",actionLogin,context),
+                    child: ButtonWidget(text:"Se connecter",onTap: actionLogin),
                   ),
                  Padding(
                    padding: const EdgeInsets.only(left: 50.0,right: 50.0,bottom: 20),
-                   child: buttonWidget("Inscription",actionInscription,context),
+                   child: ButtonWidget(text: "Inscription",onTap: actionInscription),
                  )
                 ],
               ),

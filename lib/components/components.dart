@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EntryField extends StatefulWidget {
   EntryField({super.key,required this.text,required this.type,required this.express,
@@ -23,6 +24,8 @@ class _EntryFieldState extends State<EntryField> {
       child: SizedBox(
         width: 350,
         child: TextFormField(
+          readOnly:  widget.type == 'date'? true:false,
+          showCursor: widget.type == 'date'? false:true,
           onTap: widget.type != 'date'? (){}:
               ()async{
             DateTime? pickedDate = await showDatePicker(
@@ -30,6 +33,7 @@ class _EntryFieldState extends State<EntryField> {
               firstDate: DateTime(1900),
               lastDate: DateTime.now(),
             );
+            widget.control.text = "${pickedDate?.day}-${pickedDate?.month}-${pickedDate?.year}";
           },
           controller: widget.control,
           obscureText: widget.type == 'password',
@@ -47,7 +51,7 @@ class _EntryFieldState extends State<EntryField> {
               )
           ),
           validator: (value) {
-            if(required == true )
+            if(widget.required == true )
             {
               if(value!.isEmpty){
                 return 'Ce champ est obligatoire';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projet_memoire/project/add_amount.dart';
 import 'package:projet_memoire/project/add_article.dart';
 import 'package:projet_memoire/project/add_depense.dart';
+import 'package:projet_memoire/project/change_admin.dart';
 import 'package:projet_memoire/project/create_project.dart';
 import 'package:projet_memoire/project/infos_project.dart';
 import 'package:projet_memoire/project/list_costs.dart';
@@ -8,11 +10,9 @@ import 'package:projet_memoire/project/list_transaction.dart';
 import 'package:projet_memoire/project/transaction_between_projects.dart';
 import 'package:projet_memoire/project/transactions_do.dart';
 import 'package:projet_memoire/project/transactions_get.dart';
-import 'package:projet_memoire/user/connection.dart';
+import 'package:projet_memoire/user/connection_new.dart';
 import 'package:projet_memoire/user/user_index.dart';
-
 import 'components/data_class.dart';
-import 'components/menu.dart';
 
 void main() {
   runApp(const MyApp() );
@@ -72,7 +72,30 @@ class RouteGenerator {
 
         return PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>const AddProject(),
+            pageBuilder:(context, animation, secondAnimation)=> AddProject(hasParent: false,),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
+      case '/project/create_under_project':
+
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=> AddProject(hasParent: true),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
+      case '/project/changeAdmin':
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=> const ChangeAdminProject(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
               var begin=const Offset(0.0, 1.0);
               var end=const Offset(0.0, 0.0);
@@ -174,6 +197,17 @@ class RouteGenerator {
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
+            });
+
+      case '/project/addAmount':
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=>const AddAmount(),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
             });
     }
     return null;

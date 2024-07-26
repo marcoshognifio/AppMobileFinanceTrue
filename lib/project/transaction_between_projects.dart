@@ -60,7 +60,7 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
                     getProjectRecipient =  GetList(listItems: DataClass().getItemsUnderProjects()),
                     EntryField(text: 'Objet de la transaction',type: 'text',express:  RegExp(r''),control: objectController,
                               required: true,error: ''),
-                    EntryField(text: 'Montant de la transcation',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
+                    EntryField(text: 'Montant de la transaction',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
                               control:  montantController,required: true,error: 'Entrez une valeur numerique'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +84,7 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
                                   'objet' : objectController.text,
                                 };
                                 final uri = Uri.parse("$url/api/projet/$projectIssuesController/save_transaction");
-                                final response = await http.post(uri,body : request);
+                                final response = await http.post(uri,body : request,headers: {"Content-Type": "application/json","Authorization":"Bearer $token"});
 
 
                                 final Map<String, dynamic> data = json.decode(response.body);

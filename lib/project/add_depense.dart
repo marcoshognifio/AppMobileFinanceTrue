@@ -30,7 +30,7 @@ class AddSpentState extends State<AddSpent> {
     for(int i=0,c=listArticles.length;i<c;i++){
           amount = amount + double.parse(listArticles[i]['prix']);
       }
-    if(amount< currentProject['budget']){
+    if(amount< currentProject['recette_actuelle']){
       data["articles"] = listArticles;
       spend['montant'] ="$amount";
     }
@@ -53,7 +53,7 @@ class AddSpentState extends State<AddSpent> {
     spend['objet'] = objetController.text;
     data['depense'] = [spend];
     final uri = Uri.parse("$url/api/projet/${currentProject['id']}/depense/store");
-    final response = await http.post(uri,body : jsonEncode(data),headers: {"Content-Type": "application/json"},);
+    final response = await http.post(uri,body : jsonEncode(data),headers: {"Content-Type": "application/json","Authorization":"Bearer $token"},);
   }
 
 

@@ -74,17 +74,26 @@ class InscriptionPageState extends State<InscriptionPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-        ),
+      decoration:  BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xff2f52f6).withOpacity(1),Color(0xff2f52f6).withOpacity(1)]
+          )
+      ),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             header(),
-            content(),
-
-
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: content(),
+            ),
+        
+        
           ],
         ),
+      ),
     );
   }
 
@@ -97,7 +106,7 @@ class InscriptionPageState extends State<InscriptionPage> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.white.withOpacity(0.5),Colors.white.withOpacity(0.5)]
+              colors: [Colors.white.withOpacity(0.3),Colors.white.withOpacity(0.3)]
           )
 
       ),
@@ -111,7 +120,7 @@ class InscriptionPageState extends State<InscriptionPage> {
                     height: 100,
                     width: 100,
                     child: Center(
-                        child: Image.asset('images/Logo5.png', width: 100)),
+                        child: Image.asset('images/Logo3.png', width: 100)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -136,7 +145,7 @@ class InscriptionPageState extends State<InscriptionPage> {
                         express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
                         control:  emailController,required:  true,error:  ''),
                     EntryField(text:  'votre mot de passe',type:  'password',express:  RegExp(''),
-                       control:  passwordController,required: true,error:  ''),
+                        control:  passwordController,required: true,error:  ''),
 
                     Column(
                       children: [
@@ -151,7 +160,7 @@ class InscriptionPageState extends State<InscriptionPage> {
                                   onPressed: () {DefaultTabController.of(context).animateTo(0);},
                                   child: const Text('Connectez-vous',
                                     style: TextStyle(
-                                        color: Colors.blueAccent),))
+                                        color: Color(0xff2f52f6)),))
                             ],
                           ),
                         )

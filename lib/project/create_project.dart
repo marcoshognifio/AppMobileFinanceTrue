@@ -9,8 +9,8 @@ import 'package:http/http.dart' as http;
 
 
 class AddProject extends StatefulWidget {
-  const AddProject({super.key});
-
+  AddProject({super.key,required this.hasParent});
+  bool hasParent;
 
 
   @override
@@ -53,12 +53,19 @@ class AddProjectState extends State<AddProject> {
       descriptionController.text.isNotEmpty?project['description']=descriptionController.text:true==true;
       budgetController.text.isNotEmpty?project['budget_prevu']=budgetController.text:true==true;
       dateEndController.text.isNotEmpty?project['date_fin']=dateEndController.text:true==true;
-      project['createur_id'] = currentUser['id'];
-      project['administrateur_id'] = currentProject['id'];
+
+      if(widget.hasParent == true){
+        project['createur_id'] = currentProject['administrateur']['id'];
+        project['administrateur_id'] = currentProject['administrateur']['id'];
+        project['projet_parent_id'] = currentProject['id'];
+      }
+      else{
+        project['createur_id'] = currentUser['id'];
+        project['administrateur_id'] = currentUser['id'];
+      }
 
       final uri = Uri.parse("$url/api/projet/create_projet");
-      final response = await http.post(uri,body : project);
-      print(response.body);
+      final response = await http.post(uri,body : jsonEncode(project),headers: {"Content-Type": "application/json","Authorization":"Bearer $token"});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -148,15 +155,15 @@ class AddProjectState extends State<AddProject> {
                   key: formKey,
                   child: Column(
                     children: [
-                      EntryField( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z]+([0-9]+)?[a-zA-Z]+$'),
+                      EntryField( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z][a-zA-Z0-9 ]+$'),
                                   control: nomController,required: true,error: 'Entre invalide'),
                       EntryField( text: 'Description du projet(Facultative)',type:  'text',express:  RegExp(''),
                                   control:  descriptionController,required: false,error: ''),
                       EntryField(text:  'Le budget prevu(Facultative)',type:  'text',express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
                                   control: budgetController,required: false,error:  'Entrez une valeur numerique'),
-                      EntryField(text: 'Date fin projet(Facultative)',type: 'text',express: RegExp(''),
-                                  control: descriptionController,required: false,error:  ''),
-                      buttonWidget('Se connecter', actionFunction, context),
+                      EntryField(text: 'Date fin projet(Facultative)',type: 'date',express: RegExp(''),
+                                  control: dateEndController,required: false,error:  ''),
+                      ButtonWidget(text:'Se connecter',onTap:  actionFunction),
                     ],
                   ),
                 ),

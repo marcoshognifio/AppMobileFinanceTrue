@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
-import 'package:projet_memoire/user/login.dart';
-import 'package:projet_memoire/user/inscription.dart';
-import 'package:projet_memoire/user/login.dart';
-import 'package:projet_memoire/user/inscription.dart';
+//import 'package:projet_memoire/user/login.dart';
+//import 'package:projet_memoire/user/inscription.dart';
+import 'package:projet_memoire/user/login_new.dart';
+import 'package:projet_memoire/user/inscription_new.dart';
 
 class ConnectionPage extends StatefulWidget {
-   const ConnectionPage({super.key});
+  const ConnectionPage({super.key});
 
 
   @override
@@ -39,7 +38,7 @@ class ConnectionPageState extends State<ConnectionPage> {
 }
 
 
-class TabItem extends StatelessWidget{
+class TabItem extends StatelessWidget {
   final String title;
 
 
@@ -52,12 +51,13 @@ class TabItem extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(title,
-            style: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
     );
   }
-
 }
+

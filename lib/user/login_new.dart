@@ -43,7 +43,7 @@ class LoginPageState extends State<LoginPage> {
       if (data['success'] == true) {
         currentUser = data['user'];
         token =data["token"];
-       await DataClass().getProjectsUser(currentUser['id']);
+        await DataClass().getProjectsUser(currentUser['id']);
         await Navigator.pushNamed(context, '/user/projects_create');
       }
     }
@@ -58,16 +58,25 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-        ),
+      decoration:  BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xff2f52f6).withOpacity(1),Color(0xff2f52f6).withOpacity(1)]
+        )
+      ),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             header(),
-            content(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: content(),
+            ),
           ],
         ),
-      );
+      ),
+    );
   }
 
   Widget content() {
@@ -77,9 +86,9 @@ class LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.white.withOpacity(0.15),),
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight, 
-            colors: [Color(0xff7a91f8).withOpacity(1),Colors.white.withOpacity(0.3)]
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.white.withOpacity(0.3),Colors.white.withOpacity(0.3)]
           )
 
       ),
@@ -93,7 +102,7 @@ class LoginPageState extends State<LoginPage> {
                     height: 150,
                     width: 150,
                     child: Center(
-                        child: Image.asset('images/Logo5.png', width: 150)),
+                        child: Image.asset('images/Logo3.png', width: 150)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -123,7 +132,7 @@ class LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Mot de passe oublé ?   ",
-                                style: TextStyle(color: Colors.blueAccent)),
+                                style: TextStyle(color: Color(0xff2f52f6))),
                           ],
                         ),
                       ),
@@ -138,9 +147,9 @@ class LoginPageState extends State<LoginPage> {
                                 const Text("Vous n'avez pas de compte ?   "),
                                 TextButton(
                                     onPressed: () {DefaultTabController.of(context).animateTo(1);},
-                                    child: const Text('Inscriber-vous',
+                                    child: const Text('Inscriver-vous',
                                       style: TextStyle(
-                                          color: Colors.blueAccent),))
+                                          color: Color(0xff2f52f6)),))
                               ],
                             ),
                           )

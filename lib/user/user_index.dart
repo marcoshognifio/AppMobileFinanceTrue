@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_memoire/components/app_bar.dart';
 import 'package:projet_memoire/components/data_class.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
@@ -111,22 +112,18 @@ class _ProjectWidgetState extends State<ProjectWidget> {
               tag:"image-project${widget.data['id']}",
               child: Image.asset('images/6.png',width: 100)
           ),
-          title:  Text(widget.data['nom'],
-            style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,),
+          title:  SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(widget.data['nom'],
+              style: GoogleFonts.lato(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,),
+          ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
+            child: Text("${formatter.format(widget.data['recette_actuelle'])} FCFA",
+                style: const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15)),
 
-              children: [
-                const Text("Recette actuelle : ",style: TextStyle(
-                    color: Colors.black,fontSize: 15)),
-                const SizedBox(width: 10,),
-                Text("${formatter.format(widget.data['recette_actuelle'])} FCFA",
-                    style: const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15)),
-              ],
-            ),
           ),
           trailing: const Icon(Icons.arrow_forward_ios_outlined),
           onTap:actionFunction,
