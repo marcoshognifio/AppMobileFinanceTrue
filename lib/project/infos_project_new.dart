@@ -6,17 +6,18 @@ import 'package:projet_memoire/components/app_bar.dart';
 import 'package:projet_memoire/components/menu.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
 
-class  InfoProject extends StatefulWidget {
-  const InfoProject({super.key});
+class  InfoProjectNew extends StatefulWidget {
+  const InfoProjectNew({super.key});
 
   @override
-  State<InfoProject> createState() => _InfoProjectState();
+  State<InfoProjectNew> createState() => _InfoProjectNewState();
 }
 
-class _InfoProjectState extends State<InfoProject> {
+class _InfoProjectNewState extends State<InfoProjectNew> {
 
-  
+
   late Map  project;
+  TextStyle titleUpStyle = GoogleFonts.lato(color: Colors.white,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
   TextStyle titleStyle = GoogleFonts.lato(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
   TextStyle titleLowerStyle = const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15);
 
@@ -34,19 +35,42 @@ class _InfoProjectState extends State<InfoProject> {
         appBar:  const AppBarWidget( menu:'/menuProject' ),
         backgroundColor: Colors.white,
         body:SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-              Text('Infos Projet',style: titleStyle),
-              const Divider(height: 20,color: Colors.grey,thickness: 5,),
-
+              
               Card(
+                shape:  RoundedRectangleBorder(
+                  borderRadius:  BorderRadius.circular(10),
+                  side: const BorderSide(
+                    color: Colors.blueAccent,
+                    width: 1
+                  )
+                ),
                 margin: const EdgeInsets.all(10),
                 elevation: 8,
                 color: const Color(0xfff8f8dd),
                 child: Column(
                   children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding:const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                color:Colors.blueAccent,
+                                borderRadius: BorderRadius.only(
+                                    topLeft:Radius.circular(10),
+                                    topRight: Radius.circular(10)
+                                  ),
+                              ),
+                              child: Text('Infos Projet',style: titleUpStyle)
+                          ),
+                        ),
+                      ],
+                    ),
                     Container(
                       margin: const EdgeInsets.only(left: 20,right: 20),
                       padding: const EdgeInsets.only(top: 10),
@@ -56,12 +80,10 @@ class _InfoProjectState extends State<InfoProject> {
                         children: [
                           Expanded(child: Text('Nom du projet',style: titleStyle,)),
                           currentProject['nom'].toString().length >20 ?
-                          Expanded(
-                            child: SingleChildScrollView(
+                          SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Text(currentProject['nom'].toString(),style: titleLowerStyle,)
-                            ),
-                          ):Text(currentProject['nom'].toString(),style: titleLowerStyle,)
+                            ) :Text(currentProject['nom'].toString(),style: titleLowerStyle,)
                         ],
                       ),
                     ),
@@ -75,17 +97,19 @@ class _InfoProjectState extends State<InfoProject> {
               ),
               listUnderProjects.isEmpty?
               Container():
-              Container(
-                child: Column(
-                  children: [
-                    Text('Les Sous Projets',style: titleStyle),
-                    const Divider(height: 20,color: Colors.grey,thickness: 5,),
-                  ],
+              Card(
+                shape:  RoundedRectangleBorder(
+                    borderRadius:  BorderRadius.circular(10),
+                    side: const BorderSide(
+                        color: Colors.blueAccent,
+                        width: 1
+                    )
                 ),
-              ),
-              Container(
+                margin: const EdgeInsets.all(10),
+                elevation: 8,
+                color: const Color(0xfff8f8dd),
                 child: Column(
-                  children: listUnderProjects.map<Widget>((project) =>ProjectWidget(data:  project as Map<String,dynamic>)).toList(),
+                  children: columnItemWidget(listUnderProjects)
                 ),
               )
 
@@ -94,25 +118,49 @@ class _InfoProjectState extends State<InfoProject> {
         ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.all(0),
-            child:MenuWidget(menuOptions: menuProjectItems),
+          child:MenuWidget(menuOptions: currentProject['administrateur']['id'] == currentUser['id'] ?
+          menuAdminProjectItems:menuCreatorProjectItems),
         )
     );
   }//
 
-  Widget titleWidget(String text){
+  List<Widget> columnItemWidget(List projects){
+    int a = projects.length-1;
+    List<Widget> result =[];
+    result.add(
 
-    return Container(
-      height: 200,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft:Radius.circular(20),topRight:Radius.circular(20)),
-          boxShadow:[ BoxShadow(color: Colors.grey,spreadRadius: 4,blurRadius: 6,offset: Offset(0, 3))],
-          color: Colors.white,
-          image: DecorationImage(image: AssetImage("images/1.jpg"),fit: BoxFit.cover)
-      ),
-
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                  alignment: Alignment.center,
+                  padding:const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color:Colors.blueAccent,
+                    borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(10),
+                        topRight: Radius.circular(10)
+                    ),
+                  ),
+                  child: Text('Les sous projets',style: titleUpStyle)
+              ),
+            ),
+          ],
+        )
     );
+    for(int i=0;i<a;i++){
+      result.add(Container(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.blueAccent))
+          ),
+          child: ProjectWidget(data:  projects[i] as Map<String,dynamic>)
+        )
+      );
+    }
+    result.add(ProjectWidget(data:  projects[a] as Map<String,dynamic>));
+    return result;
   }
-
+  
   Widget containing(String text, var element ){
 
 
@@ -147,11 +195,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    return Card(
-        margin: const EdgeInsets.all(10),
-        elevation: 8,
-        color: const Color(0xfff8f8dd),
-        child: ListTile(
+    return  ListTile(
           leading: Hero(
               tag:"image-project${widget.data['id']}",
               child: Image.asset('images/6.png',width: 100)
@@ -171,7 +215,6 @@ class _ProjectWidgetState extends State<ProjectWidget> {
           ),
           trailing: const Icon(Icons.arrow_forward_ios_outlined),
           onTap:actionFunction,
-        )
-    );
+        );
   }
 }

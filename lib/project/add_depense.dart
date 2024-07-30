@@ -30,22 +30,40 @@ class AddSpentState extends State<AddSpent> {
     for(int i=0,c=listArticles.length;i<c;i++){
           amount = amount + double.parse(listArticles[i]['prix']);
       }
+    print("bonjour $amount");
     if(amount< currentProject['recette_actuelle']){
       data["articles"] = listArticles;
       spend['montant'] ="$amount";
+
+      showDialog(
+          context: context,
+          builder: (context) =>AlertDialog(
+            title: const Text("Confirmation de la dépense"),
+            content:  EntryField(text:  'Objet de la depense',type: 'text',express: RegExp(r'^[a-zA-Z]+$'),
+              control: objetController,required: true,error: 'Votre entré doit etre constitué de lettre',),
+            actions: [
+              TextButton(onPressed: saveSpend, child: const Text("Valider")),
+              TextButton(onPressed:()async {
+                Navigator.of(context).pop();
+              }, child: const Text("Quitter"))
+            ],
+          )
+      );
+    }
+    else {
+      showDialog(
+          context: context,
+          builder: (context) =>AlertDialog(
+            title: const Text("Confirmation de la dépense"),
+            content: const Text('Le fond de votre projet est insuffisant pour enregistrer cette dépense',
+                        textAlign: TextAlign.center,),
+            actions: [
+              TextButton(onPressed:(){Navigator.pop(context);}, child: const Text("Quitter"))
+            ],
+          )
+      );
     }
 
-    showDialog(
-        context: context,
-        builder: (context) =>AlertDialog(
-          title: const Text("Confirmation de la dépense"),
-          content:  EntryField(text:  'Objet de la depense',type: 'text',express: RegExp(r'^[a-zA-Z]+$'),
-              control: objetController,required: true,error: 'Votre entré doit etre constitué de lettre',),
-          actions: [
-            TextButton(onPressed: saveSpend, child: const Text("Valider"))
-          ],
-        )
-    );
   }
 
   saveSpend() async {
@@ -63,12 +81,13 @@ class AddSpentState extends State<AddSpent> {
     return Scaffold(
       appBar: const AppBarWidget( menu:'/menuProject' ),
       backgroundColor: Colors.white,
-      body:ListView.builder(
+      body: listArticles.isNotEmpty ? ListView.builder(
               itemCount :listArticles.length ,
               itemBuilder:(context, index){
                 return itemList( listArticles[index]);
                   }
-            ),
+            ): emptyPage("Pas d'articles à ajouter."
+          " Appuyez sur le bouton + pour ajouter un article",Container() ),
       floatingActionButton: Padding(
         padding: const  EdgeInsets.only(left: 30.0) ,
         child: Row(
@@ -102,33 +121,36 @@ class AddSpentState extends State<AddSpent> {
           margin: const EdgeInsets.all(10),
           elevation: 8,
           color: const Color(0xfff8f8dd),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                    children: [
-                      Expanded(
-                        child: Expanded(child: Text(item['nom'],
-                          style:GoogleFonts.lato(color: Colors.lightBlue,fontStyle: FontStyle.italic,fontSize: 22,fontWeight: FontWeight.w900))),
-                      ),
-                      Text(item['quantite'],style: const TextStyle(fontWeight: FontWeight.w900,fontSize: 18,color: Color(
-                          0xff838080)))
-                    ]
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top:17.0),
-                  child: Row(children: [
-                    const Text('Prix : ',style:  TextStyle(fontWeight: FontWeight.w800,fontSize: 20),),
-                    Text("${formatter.format(int.parse(item['prix']))} FCFA",style: const TextStyle(fontWeight: FontWeight.w800,fontSize:18,color: Color(
-                        0xff838080)),),],
-                  ),
-                ),
+          child: Theme(
+            data: ThemeData(
 
-              ],
+              splashColor: Colors.transparent,
+
+              hoverColor: Colors.transparent,),
+            child:ListTile(
+              dense: true,
+              contentPadding: const EdgeInsets.only(left:10),
+              title:  Row(
+                  children: [
+
+                    Expanded(child: Text(item['nom'],
+                        style:GoogleFonts.lato(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900))),
+                    Padding(
+                      padding: const EdgeInsets.only(right:  20.0),
+                      child: Text(item['quantite'],style: const TextStyle(fontWeight: FontWeight.w900,fontSize: 15,color: Color(
+                          0xff838080))),
+                    )
+                  ]
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text("${formatter.format(double.parse(item['prix']))} FCFA",
+                    style: const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15)),
+              ),
             ),
-          ),
+          )
       ),
     );
   }
 }
+

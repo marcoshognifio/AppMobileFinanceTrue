@@ -10,10 +10,10 @@ class ButtonWidget extends StatelessWidget {
 
   TextStyle textStyle=const TextStyle(
       color: Colors.white,
-      fontSize: 20,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
-      wordSpacing: 5,
-      letterSpacing: 3);
+      wordSpacing: 3,
+      letterSpacing: 1);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +26,7 @@ class ButtonWidget extends StatelessWidget {
                 child: ElevatedButton(
 
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff2f52f6),
+                    backgroundColor: Colors.blueAccent, //Color(0xff2f52f6),
                     padding:const  EdgeInsets.only(top: 15, bottom: 15),
                     elevation: 2,
                     shape: RoundedRectangleBorder(

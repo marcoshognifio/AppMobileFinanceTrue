@@ -1,12 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../components/app_bar.dart';
 import '../components/button.dart';
 import '../components/components.dart';
 import '../components/data_class.dart';
 import 'package:http/http.dart' as http;
 
+import '../components/navbar_user.dart';
 import 'get_list.dart';
 
 
@@ -46,8 +46,9 @@ class AddAmountState extends State<AddAmount> {
   }
 
   actionFunction() async{
-    if (formKey.currentState!.validate()) {
-      projectRecipientController = getProjectRecipient.getSelectedValue();
+    projectRecipientController= getProjectRecipient.getSelectedValue();
+    if (formKey.currentState!.validate() && projectRecipientController >= 0) {
+
       Map<String,dynamic> request = {
         'projet_destinataire_id': projectRecipientController,
         'montant' : amountController.text,
@@ -73,96 +74,42 @@ class AddAmountState extends State<AddAmount> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-
+        bottomNavigationBar: const NavbarUser(),
+        appBar: const AppBarWidget(menu: '/menuUser'),
         backgroundColor: Colors.white,
-        body: Container(
+        body: listProjectUser.isNotEmpty ? Container(
           decoration: const BoxDecoration(
-              image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
+             color: Colors.white
           ),
-          child: Column(
-            children: [
-              header(),
-              content(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                header('Ajout de Fond à un projet'),
+                content("Ajouter de fond à l'un de vos projets ",SizedBox(
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  getProjectRecipient =  GetList(items: DataClass().getItemsProjectsUser()),
+                                  EntryField(text: 'Objet du depot de fond',type: 'text',express:  RegExp(r''),control: objectController,
+                                      required: true,error: ''),
+                                  EntryField(text: 'Montant du fond',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
+                                      control:  amountController,required: true,error: 'Entrez une valeur numerique'),
+                                  ButtonWidget(text:'Valider',onTap: actionFunction),
+                                ],
+                              ),
+                            ),
+                          )
+                        ),
+                  ],
+            ),
           ),
-        )
+        ) : emptyPage("Vous n'avez aucun projet.",Container() )
     );
 
   }
 
-  Widget header() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: const Column(
-        children: [
-          Padding(
-            padding:  EdgeInsets.only(top:50, bottom: 10.0),
-            child: Row(children: [
-              Icon(Icons.label_important, color: Colors.white,),
-              Padding(
-                padding:  EdgeInsets.all(15.0),
-                child: Text('Ajouter un Project',
-                  style:
-                  TextStyle(color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),),
-              )
-            ],),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget content() {
-    return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Colors.white.withOpacity(0.15),),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white.withOpacity(0.5),Colors.white.withOpacity(0.5)]
-          )
-
-      ),
-      child: Column(
-        children: [
-          Center(child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  "Ajouter de fond à un projet",
-                  style: GoogleFonts.actor(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 17,
-                      fontStyle: FontStyle.italic),),
-              ),
-              SizedBox(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      getProjectRecipient =  GetList(listItems: DataClass().getItemsProjectsUser()),
-                      EntryField(text: 'Objet du depot de fond',type: 'text',express:  RegExp(r''),control: objectController,
-                          required: true,error: ''),
-                      EntryField(text: 'Montant du fond',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
-                          control:  amountController,required: true,error: 'Entrez une valeur numerique'),
-                      ButtonWidget(text:'Valider',onTap: actionFunction),
-                    ],
-                  ),
-                ),
-              )
-
-            ],
-          )),
-        ],
-      ),
-    );
-  }
 }
 
 

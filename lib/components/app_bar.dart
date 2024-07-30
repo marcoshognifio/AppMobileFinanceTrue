@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String menu;
@@ -8,26 +10,44 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 8,
-      child: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: Padding(
-          padding: const EdgeInsets.only(top :8.0),
-          child: Center(child: Image.asset('images/6.png',height: 50,)),
-        ),
-        leading:IconButton(
-            icon: const  Icon(Icons.arrow_back_sharp,size: 40,color: Colors.white,),
-            onPressed: () { Navigator.pop(context);},) ,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu,color: Colors.white,size: 40,),
-            onPressed: (){
-              Navigator.pushNamed(context,menu);
-            }
-          )
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.blueAccent,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(
+              5.0,
+              5.0,
+            ), //Offset
+            blurRadius: 5.0,
+            spreadRadius: 2.0,
+          ), //BoxShadow
+          BoxShadow(
+            color: Color(0xff363636),
+            offset: Offset(0.0, 0.0),
+            blurRadius: 5.0,
+            spreadRadius: 0.0,
+          ), //BoxShadow
         ],
       ),
+      child: AppBar(
+          backgroundColor: Colors.blueAccent,
+          title:Center(child: Image.asset('images/6.png',height: 50,)),
+
+          leading:IconButton(
+              icon: const  Icon(Icons.arrow_back_sharp,size: 40,color: Colors.white,),
+              onPressed: () {
+                Navigator.pop(context);},) ,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.menu,color: Colors.white,size: 40,),
+              onPressed: (){
+                Navigator.pushNamed(context,menu);
+              }
+            )
+          ],
+        ),
     );
   }
 

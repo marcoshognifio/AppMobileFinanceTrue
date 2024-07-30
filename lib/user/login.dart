@@ -43,7 +43,6 @@ class LoginPageState extends State<LoginPage> {
       if (data['success'] == true) {
         currentUser = data['user'];
         token =data["token"];
-       await DataClass().getProjectsUser(currentUser['id']);
         await Navigator.pushNamed(context, '/user/projects_create');
       }
     }
@@ -61,17 +60,23 @@ class LoginPageState extends State<LoginPage> {
         decoration: const BoxDecoration(
           image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
         ),
-        child: Column(
-          children: [
-            header(),
-            content(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              header(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40.0),
+                child: content(),
+              ),
+            ],
+          ),
         ),
       );
   }
 
   Widget content() {
     return Container(
+      padding: const EdgeInsets.only(bottom: 20),
       margin: const EdgeInsets.only(left: 30, right: 30),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -79,7 +84,7 @@ class LoginPageState extends State<LoginPage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight, 
-            colors: [Color(0xff7a91f8).withOpacity(1),Colors.white.withOpacity(0.3)]
+            colors: [const Color(0xff7a91f8).withOpacity(1),Colors.white.withOpacity(0.3)]
           )
 
       ),
@@ -90,10 +95,10 @@ class LoginPageState extends State<LoginPage> {
               Column(
                 children: [
                   SizedBox(
-                    height: 150,
-                    width: 150,
+                    height: 130,
+                    width: 130,
                     child: Center(
-                        child: Image.asset('images/Logo5.png', width: 150)),
+                        child: Image.asset('images/Logo5.png', width: 130)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -138,7 +143,7 @@ class LoginPageState extends State<LoginPage> {
                                 const Text("Vous n'avez pas de compte ?   "),
                                 TextButton(
                                     onPressed: () {DefaultTabController.of(context).animateTo(1);},
-                                    child: const Text('Inscriber-vous',
+                                    child: const Text('Inscriver-vous',
                                       style: TextStyle(
                                           color: Colors.blueAccent),))
                               ],

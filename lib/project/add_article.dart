@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../components/app_bar.dart';
 import '../components/button.dart';
 import '../components/components.dart';
 import '../components/data_class.dart';
+import '../components/navbar_user.dart';
 
 
 class AddArticle extends StatefulWidget {
@@ -16,8 +18,8 @@ class AddArticle extends StatefulWidget {
 
 class AddArticleState extends State<AddArticle> {
 
-  int a=0;
-  TextStyle textStyle=const TextStyle(
+  int a = 0;
+  TextStyle textStyle = const TextStyle(
       color: Colors.white,
       height: 2,
       fontSize: 20,
@@ -26,10 +28,10 @@ class AddArticleState extends State<AddArticle> {
       letterSpacing: 3
   );
 
-  final formKey=GlobalKey<FormState>();
-  final nomController=TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final nomController = TextEditingController();
   final quantityController = TextEditingController();
-  final priceController=TextEditingController();
+  final priceController = TextEditingController();
 
   @override
   void dispose() {
@@ -39,17 +41,16 @@ class AddArticleState extends State<AddArticle> {
     priceController.dispose();
   }
 
-  actionFunction() async{
+  actionFunction() async {
     if (formKey.currentState!.validate()) {
-
-      Map<String,dynamic> article = {
-        'nom' : nomController.text,
-        'quantite' : quantityController.text,
-        'prix' : priceController.text,
+      Map<String, dynamic> article = {
+        'nom': nomController.text,
+        'quantite': quantityController.text,
+        'prix': priceController.text,
       };
 
       listArticles.add(article);
-      Navigator.pushNamed(context,'/project/addSpend');
+      Navigator.pushNamed(context, '/project/addSpend');
     }
   }
 
@@ -60,111 +61,56 @@ class AddArticleState extends State<AddArticle> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
-      backgroundColor: Colors.white,
-      body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-        ),
-        child: Column(
-          children: [
-            header(),
-            content(),
-          ],
-        ),
-      )
-    );
-
-  }
-
-  Widget header() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: const Column(
-        children: [
-          Padding(
-            padding:  EdgeInsets.only(top:50, bottom: 10.0),
-            child: Row(children: [
-              Icon(Icons.label_important, color: Colors.white,),
-              Padding(
-                padding:  EdgeInsets.all(15.0),
-                child: Text('Ajouter un article',
-                  style:
-                  TextStyle(color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),),
-              )
-            ],),
+        bottomNavigationBar: const NavbarUser(),
+        appBar: const AppBarWidget(menu: '/menuUser'),
+        backgroundColor: Colors.white,
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
           ),
-        ],
-      ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                header("Ajout d'un article"),
+                content("Ajouter un article a votre catalogue de dépense",
+                    SizedBox(
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            EntryField(text: 'Nom',
+                                type: 'text',
+                                express: RegExp(r'^[a-zA-Z ]+[a-zA-Z0-9 ]+$'),
+                                control: nomController,
+                                required: true,
+                                error: 'le nom entré n\'est pas valide'),
+                            EntryField(text: 'Quantité de l\'article',
+                                type: 'text',
+                                express: RegExp(''),
+                                control: quantityController,
+                                required: true,
+                                error: ''),
+                            EntryField(text: 'Le prix de l\'article',
+                                type: 'text',
+                                express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
+                                control: priceController,
+                                required: true,
+                                error: 'Entrez une valeurs numerique'),
+                            ButtonWidget(
+                                text: 'Se connecter', onTap: actionFunction),
+                          ],
+                        ),
+                      ),
+                    )
+                )
+                ,
+              ],
+            ),
+          ),
+        )
     );
   }
 
-  Widget content() {
-    return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Colors.white.withOpacity(0.15),),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white.withOpacity(0.5),Colors.white.withOpacity(0.5)]
-          )
 
-      ),
-      child: Column(
-        children: [
-          Center(child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  "Ajouter un article a votre catalogue de dépense",
-                  style: GoogleFonts.actor(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 17,
-                      fontStyle: FontStyle.italic),),
-              ),
-              SizedBox(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      EntryField(text:  'Nom',type:  'text',express:  RegExp(r'^[a-zA-Z ]+[a-zA-Z0-9 ]+$'),
-                          control: nomController,required: true,error: 'le nom entré n\'est pas valide'),
-                      EntryField(text: 'Quantité de l\'article',type:  'text',express:  RegExp(''),
-                          control: quantityController,required:  true,error:  ''),
-                      EntryField(text: 'Le prix de l\'article',type: 'text',express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
-                          control: priceController,required: true,error: 'Entrez une valeurs numerique'),
-                      ButtonWidget(text:'Se connecter',onTap: actionFunction),
-                    ],
-                  ),
-                ),
-              )
-
-            ],
-          )),
-        ],
-      ),
-    );
-  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

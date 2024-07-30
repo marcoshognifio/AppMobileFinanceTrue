@@ -58,16 +58,17 @@ class InscriptionPageState extends State<InscriptionPage> {
         'telephone' : telephoneController.text,
         'email' : emailController.text,
         'password' : passwordController.text,
-        'image' : imageController.getNameImage()
+        //'image' : imageController.getNameImage()
       };
 
+      print(request);
       final uri = Uri.parse("$url/api/user/save_user");
       final response = await http.post(uri,body : request);
-      print(response.body);
-
       final Map<String, dynamic> data = json.decode(response.body);
 
-      //Navigator.pushNamed(context,'/user/projects',arguments: data['user']['id']);
+      if(data['success'] ==true){
+       DefaultTabController.of(context).animateTo(0);
+      }
     }
   }
 
@@ -77,27 +78,31 @@ class InscriptionPageState extends State<InscriptionPage> {
         decoration: const BoxDecoration(
             image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
         ),
-        child: Column(
-          children: [
-            header(),
-            content(),
-
-
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              header(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40.0),
+                child: content(),
+              ),
+            ],
+          ),
         ),
     );
   }
 
   Widget content() {
     return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
+      padding: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(left: 30, right: 30,bottom: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.white.withOpacity(0.15),),
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.white.withOpacity(0.5),Colors.white.withOpacity(0.5)]
+              colors: [const Color(0xff7a91f8).withOpacity(1),Colors.white.withOpacity(0.3)]
           )
 
       ),
@@ -108,10 +113,10 @@ class InscriptionPageState extends State<InscriptionPage> {
               Column(
                 children: [
                   SizedBox(
-                    height: 100,
-                    width: 100,
+                    height: 130,
+                    width: 130,
                     child: Center(
-                        child: Image.asset('images/Logo5.png', width: 100)),
+                        child: Image.asset('images/Logo5.png', width: 130)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -126,38 +131,41 @@ class InscriptionPageState extends State<InscriptionPage> {
                 ],
               ),
               SizedBox(
-                child: Column(
-                  children: [
-                    EntryField(text:  'Nom',type:  'text',express:  RegExp(r''),
-                        control:  nomController,required:  true,error:  ''),
-                    EntryField(text: 'telephone',type: 'text',express: RegExp(r'^[0-9]+$'),
-                        control: telephoneController,required: true,error:  'Entrez des valeurs numeriques'),
-                    EntryField(text:  'votre email', type: 'email',
-                        express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
-                        control:  emailController,required:  true,error:  ''),
-                    EntryField(text:  'votre mot de passe',type:  'password',express:  RegExp(''),
-                       control:  passwordController,required: true,error:  ''),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      EntryField(text:  'Nom',type:  'text',express:  RegExp(r''),
+                          control:  nomController,required:  true,error:  ''),
+                      EntryField(text: 'telephone',type: 'text',express: RegExp(r'^[0-9]+$'),
+                          control: telephoneController,required: true,error:  'Entrez des valeurs numeriques'),
+                      EntryField(text:  'votre email', type: 'email',
+                          express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
+                          control:  emailController,required:  true,error:  ''),
+                      EntryField(text:  'votre mot de passe',type:  'password',express:  RegExp(''),
+                         control:  passwordController,required: true,error:  ''),
 
-                    Column(
-                      children: [
-                        ButtonWidget(text: 'S\'inscrire',onTap:  actionFunction),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Avez vous un compte ?   "),
-                              TextButton(
-                                  onPressed: () {DefaultTabController.of(context).animateTo(0);},
-                                  child: const Text('Connectez-vous',
-                                    style: TextStyle(
-                                        color: Colors.blueAccent),))
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+                      Column(
+                        children: [
+                          ButtonWidget(text: 'S\'inscrire',onTap:  actionFunction),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0, right: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Avez vous un compte ?   "),
+                                TextButton(
+                                    onPressed: () {DefaultTabController.of(context).animateTo(0);},
+                                    child: const Text('Connectez-vous',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent),))
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               )
 

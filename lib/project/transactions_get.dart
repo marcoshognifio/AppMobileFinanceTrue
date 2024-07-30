@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_memoire/components/data_class.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
-
 import 'package:projet_memoire/components/app_bar.dart';
+import '../components/components.dart';
 
 class ListTransactionsGet extends StatefulWidget {
   const ListTransactionsGet({super.key});
@@ -27,11 +27,13 @@ class ListTransactionsGetState extends State<ListTransactionsGet> {
           builder: (BuildContext context,
               AsyncSnapshot<List<dynamic>>snapshot){
             if(snapshot.hasData){
-              return ListView.builder(
+
+              return listTransactionsGet.isNotEmpty ? ListView.builder(
                   itemCount :listTransactionsGet.length ,
                   itemBuilder:(context, index){
                     return itemList( listTransactionsGet[index] as Map<String, dynamic>);
-                  });
+                  }) : emptyPage("Aucune transaction n'a été réçue  ",
+                    Container());
             }
             else {
               return const CircularProgressIndicator();

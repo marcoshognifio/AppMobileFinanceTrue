@@ -3,17 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_memoire/components/app_bar.dart';
+import 'package:projet_memoire/components/components.dart';
 import 'package:projet_memoire/components/data_class.dart';
 import 'package:projet_memoire/components/navbar_user.dart';
 
+import '../components/button.dart';
 import '../components/menu.dart';
 
 //ignore: must_be_immutable
 class ListProjectUser extends StatefulWidget {
-  ListProjectUser({super.key,required this.listProjectsBuild,required this.showButtonAdd});
+  ListProjectUser({super.key,required this.choose});
 
-  List listProjectsBuild;
-  bool showButtonAdd ;
+  bool choose;
   @override
   State<StatefulWidget> createState() {
     return ListProjectUserState();
@@ -28,18 +29,25 @@ class ListProjectUserState extends State<ListProjectUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar:const NavbarUser(),
         appBar: const AppBarWidget( menu: '/menuUser'),
       body: FutureBuilder<List<dynamic>>(
-        future: DataClass().getProjectsUser(currentUser['id']),
+        future: widget.choose ? DataClass().getProjectsCreateUser(currentUser['id']):
+                                DataClass().getProjectsAdminUser(currentUser['id']),
         builder: (BuildContext context,
             AsyncSnapshot<List<dynamic>>snapshot){
               if(snapshot.hasData){
-                return ListView.builder(
-                  itemCount :listProjectUser.length,
+                List listProjectsBuild = widget.choose ? listProjectUser : listProjectAdminUser;
+                return  listProjectsBuild.isNotEmpty ? ListView.builder(
+                  padding: const EdgeInsets.only(top:10),
+                  itemCount :listProjectsBuild.length,
                     itemBuilder:(context, index){
-                    return ProjectWidget(data: listProjectUser[index] as Map<String,dynamic>);
-                    });
+                      return ProjectWidget(data: listProjectsBuild[index] as Map<String,dynamic>);
+                    }
+                ): widget.choose ? emptyPage("Vous n'avez aucun projet .",
+                    ButtonWidget(text: "Céer un projet", onTap:()async{await Navigator.pushNamed(context,'/project/create' );})) :
+                emptyPage("Vous n'avez aucun projet à administrer .",Container());
               }
               else {
                 return const CircularProgressIndicator();
@@ -51,7 +59,6 @@ class ListProjectUserState extends State<ListProjectUser> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            FloatButton(controller:  widget.showButtonAdd),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: MenuWidget( menuOptions: menuUserItems)

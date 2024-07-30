@@ -80,7 +80,7 @@ class ChangeAdminProjectState extends State<ChangeAdminProject> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       getProjectRecipient = GetList(
-                          listItems: DataClass().getItemsProjectsCreate()),
+                          items: DataClass().getItemsProjectsCreate()),
                       EntryField(text: 'Email du nouveau administrateur',
                           type: 'text',
                           express: RegExp(

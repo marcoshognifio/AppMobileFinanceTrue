@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:projet_memoire/components/data_class.dart';
 import 'package:projet_memoire/project/add_amount.dart';
 import 'package:projet_memoire/project/add_article.dart';
 import 'package:projet_memoire/project/add_depense.dart';
 import 'package:projet_memoire/project/change_admin.dart';
 import 'package:projet_memoire/project/create_project.dart';
-import 'package:projet_memoire/project/infos_project.dart';
+import 'package:projet_memoire/project/delete_project.dart';
+import 'package:projet_memoire/project/infos_project_new.dart';
 import 'package:projet_memoire/project/list_costs.dart';
-import 'package:projet_memoire/project/list_transaction.dart';
 import 'package:projet_memoire/project/transaction_between_projects.dart';
 import 'package:projet_memoire/project/transactions_do.dart';
 import 'package:projet_memoire/project/transactions_get.dart';
-import 'package:projet_memoire/user/connection_new.dart';
+import 'package:projet_memoire/user/connection.dart';
 import 'package:projet_memoire/user/user_index.dart';
-import 'components/data_class.dart';
 
 void main() {
   runApp(const MyApp() );
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
+      navigatorObservers: [routeObserver],
       title: 'Finance True App',
       onGenerateRoute:(settings)=>RouteGenerator.generatorRoute(settings),
       debugShowCheckedModeBanner: false,
@@ -51,9 +52,10 @@ class RouteGenerator {
             });
 
       case '/user/projects_create':
+
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
-            ListProjectUser(listProjectsBuild: listProjectUser,showButtonAdd: true,),
+            ListProjectUser(choose:true),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
@@ -62,7 +64,7 @@ class RouteGenerator {
       case '/user/projects_admin':
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
-            ListProjectUser(listProjectsBuild: [listProjectAdminUser],showButtonAdd: false,),
+            ListProjectUser(choose: false),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
@@ -146,18 +148,6 @@ class RouteGenerator {
               return SlideTransition(position: animation.drive((tween)),child: child);
             });
 
-      case '/project/transactions':
-        return PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>
-            const ListTransaction(),
-            transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
-              var end=const Offset(0.0, 0.0);
-              var tween=Tween(begin: begin,end:end);
-              return SlideTransition(position: animation.drive((tween)),child: child);
-            });
-
       case 'project/transactionGet':
         return PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
@@ -173,27 +163,15 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=>
             const ListTransactionsDo(),
-            transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
-              var end=const Offset(0.0, 0.0);
-              var tween=Tween(begin: begin,end:end);
-              return SlideTransition(position: animation.drive((tween)),child: child);
-            });
-
-      case '/project/projectBalanceSheet':
-        return PageRouteBuilder(
-            pageBuilder: (context,animation,secondAnimation)=>
-            const ListTransaction(),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
             });
 
-
       case '/project/Info':
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
-            const InfoProject(),
+            const InfoProjectNew(),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
@@ -203,6 +181,18 @@ class RouteGenerator {
         return PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=>const AddAmount(),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
+      case '/project/delete':
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=>
+            const DeleteProject(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
               var begin=const Offset(0.0, 1.0);
               var end=const Offset(0.0, 0.0);

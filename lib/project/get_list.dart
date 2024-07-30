@@ -1,77 +1,86 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //ignore: must_be_immutable
-class GetList extends StatefulWidget {
-  GetList({super.key,required this.listItems});
-  final List<Map<String,dynamic>> listItems ;
+class GetList extends StatelessWidget {
+  GetList({super.key,required this.items});
+  final List<Map<String,dynamic>> items ;
   int?  selectedValue;
-  @override
-  GetListState createState() => GetListState();
 
-  getSelectedValue() => selectedValue;
-
-}
-
-class GetListState extends State<GetList> {
-
-  List<DropdownMenuItem> listButton = [];
-
-
- @override
-  void initState() {
-    widget.selectedValue = widget.listItems[1]['value'];
-    super.initState();
+  getSelectedValue(){
+    if(selectedValue == null){
+      return -1;
+    }
+    return  selectedValue;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
-        padding: const EdgeInsets.only(top: 0, bottom: 20),
-        child:Container(
+      padding: const EdgeInsets.only(top: 0, bottom: 20),
+      child:Container(
           width: 350,
-          height: 60,
           decoration: BoxDecoration(
             color:  Colors.white,
             borderRadius:  BorderRadius.circular(20),
             boxShadow:const  [BoxShadow(
                 color: Colors.grey,
                 offset: Offset(2, 2),
-                blurRadius: 10)],
+                blurRadius: 5)],
           ),
-          child: DropdownMenu(
-            width: 360,
-            inputDecorationTheme:
-                const InputDecorationTheme(border:OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0 )),
-                    borderSide:  BorderSide(
-                        width: 0,
-                        style: BorderStyle.none
-                    )
-                )),
-            label:const Text("Choisissez le projet destinataire"),
-            dropdownMenuEntries: listItems(widget.listItems),
-            onSelected: (item){
-              if(item !=null){
-                setState(() {
-                  widget.selectedValue = item;
-                });
-              }
-            },
-
+          child: Column(
+            children: [
+              ButtonTheme(
+                alignedDropdown: true,
+                child: DropdownButtonFormField(
+                  decoration: const InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      hoverColor: Colors.white,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          borderSide: BorderSide(
+                              width: 0,
+                              style: BorderStyle.none
+                          )
+                      )
+                  ),
+                  value: selectedValue,
+                  hint: const Text("Choisissez le projet "),
+                  items: listItems(items),
+                  onChanged: (int? value) {
+                    if(value != null){
+                      selectedValue = value;
+                    }
+                  },
+                  validator: (value) {
+                    if (value == null ) {
+                      return 'Veuillez sélectionner une option';
+                    }
+                    return null;
+                  }
+                        
+                ),
+              ),
+        
+            ],
           ),
         ),
     );
   }
 
-  List<DropdownMenuEntry<int>> listItems(List<Map<String,dynamic>> list)
+  List<DropdownMenuItem<int>> listItems(List<Map<String,dynamic>> list)
   {
-    List<DropdownMenuEntry<int>> result = [];
+    List<DropdownMenuItem<int>> result = [];
     for(int i=0,c = list.length;i<c;i++){
-      result.add(DropdownMenuEntry(value: list[i]["value"], label: list[i]["label"]));
+      result.add(DropdownMenuItem(value: list[i]["value"],
+          child:Text(list[i]["label"])));
     }
     return result;
   }
 }
+
+
+
