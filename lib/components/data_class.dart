@@ -21,6 +21,9 @@ NumberFormat formatter = NumberFormat.decimalPatternDigits(
 
 Map currentProject = {},currentUser = {};
 
+List<String> listRoutes = [];
+List<Map> listCurrentProjects = [];
+
 List menuUserItems = [['Creer un projet','/project/create'],
                       ['Ajouter de fond','/project/addAmount'],
                       //['Changer d\'administrateur','/project/changeAdmin'],
@@ -52,6 +55,7 @@ class DataClass {
     });
     listProjectAdminUser = json.decode(response.body);
     return [];
+
   }
 
   Future<List<Map>> getProjectsCreateUser(int id) async {

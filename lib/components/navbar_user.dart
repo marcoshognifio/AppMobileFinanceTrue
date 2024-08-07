@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:projet_memoire/components/data_class.dart';
 
 class NavbarUser extends StatelessWidget {
   const NavbarUser({super.key});
@@ -44,7 +45,10 @@ class NavbarUser extends StatelessWidget {
                   height: 30,
                   child: IconButton(
                     icon: const Icon(Icons.home, color: Colors.white),
-                    onPressed: () {Navigator.pushNamed(context, '/user/projects_create');},
+                    onPressed: () {
+                      listRoutes.add('/user/projects_create');
+                      Navigator.pushNamed(context, '/user/projects_create');
+                    },
                   ),
                 ),
                 Text('Projets créés',style: textStyle,)
@@ -59,8 +63,12 @@ class NavbarUser extends StatelessWidget {
                     height: 30,
                      child: IconButton(
                        icon: const Icon(Icons.home, color: Colors.white),
-                       onPressed: () {Navigator.pushNamed(context, '/user/projects_admin');},
-                     ), )  ,
+                       onPressed: () {
+                         listRoutes.add('/user/projects_admin');
+                         Navigator.pushNamed(context, '/user/projects_admin');
+                       },
+                     ),
+                )  ,
 
                 Text('Projets administrés',style: textStyle,)
               ],

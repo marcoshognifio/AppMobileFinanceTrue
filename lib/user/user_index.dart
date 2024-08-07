@@ -106,6 +106,8 @@ class _ProjectWidgetState extends State<ProjectWidget> {
   actionFunction() async {
     currentProject = widget.data;
     await DataClass().getUnderProjects(currentProject['id']);
+    listCurrentProjects.add(currentProject);
+    listRoutes.add('/project/Info');
     Navigator.pushNamed(context,'/project/Info');
   }
   @override

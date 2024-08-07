@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:projet_memoire/components/data_class.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String menu;
@@ -33,17 +34,51 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: AppBar(
           backgroundColor: Colors.blueAccent,
-          title:Center(child: Image.asset('images/6.png',height: 50,)),
+          title: Center(child: Text('True Finance App',
+                style: GoogleFonts.lato(color: Colors.white,fontStyle: FontStyle.italic,fontSize: 17,fontWeight: FontWeight.w900))),
 
           leading:IconButton(
               icon: const  Icon(Icons.arrow_back_sharp,size: 40,color: Colors.white,),
-              onPressed: () {
-                Navigator.pop(context);},) ,
+              onPressed: () async{
+                String a= listRoutes.last;
+                if( a == '/project/Info'){
+                  currentProject = listCurrentProjects.last;
+                  listCurrentProjects.removeLast();
+                }
+                listRoutes.removeLast();
+                if(listRoutes.isNotEmpty){
+                  String a = listRoutes.last;
+
+                  Navigator.pushNamed (context,a);
+                }
+                else{
+
+                  await showDialog(
+                    context: context,
+                    builder: (context) =>AlertDialog(
+                      title: const Text("Voulez vous quittez l'application ?"),
+                      actions: [
+
+                        TextButton(onPressed:() async{
+                            Navigator.of(context).pop();
+                        }, child: const Text("Retourner")),
+
+                        TextButton(onPressed:()async {
+                          SystemNavigator.pop();
+                        }, child: const Text("Quitter"))
+                      ],
+                    )
+                  );
+
+                }
+              },
+          ) ,
           actions: [
             IconButton(
-              icon: const Icon(Icons.menu,color: Colors.white,size: 40,),
+              icon: const Icon(Icons.account_circle_rounded,color: Colors.white,size: 40,),
               onPressed: (){
-                Navigator.pushNamed(context,menu);
+                listRoutes.add('/user/profit');
+                Navigator.pushNamed(context,'/user/profit');
               }
             )
           ],

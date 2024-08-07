@@ -8,11 +8,14 @@ import 'package:projet_memoire/project/create_project.dart';
 import 'package:projet_memoire/project/delete_project.dart';
 import 'package:projet_memoire/project/infos_project_new.dart';
 import 'package:projet_memoire/project/list_costs.dart';
+import 'package:projet_memoire/project/test_image.dart';
 import 'package:projet_memoire/project/transaction_between_projects.dart';
 import 'package:projet_memoire/project/transactions_do.dart';
 import 'package:projet_memoire/project/transactions_get.dart';
+import 'package:projet_memoire/user/change_profit_user.dart';
 import 'package:projet_memoire/user/connection.dart';
 import 'package:projet_memoire/user/user_index.dart';
+import 'package:projet_memoire/user/user_profit.dart';
 
 void main() {
   runApp(const MyApp() );
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'Finance True App',
       onGenerateRoute:(settings)=>RouteGenerator.generatorRoute(settings),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: '/',
     );
   }
 }
@@ -38,7 +41,7 @@ class RouteGenerator {
   static Route<dynamic> ?generatorRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => const ConnectionPage() );//WelcomePage());
+        return MaterialPageRoute(builder: (context) => const AddImage());//ConnectionPage() );//WelcomePage());
 
       case '/login':
         return PageRouteBuilder(
@@ -59,6 +62,28 @@ class RouteGenerator {
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
+            });
+
+      case '/user/profit':
+
+        return PageRouteBuilder(
+            pageBuilder: (context,animation,secondAnimation)=>
+                const UserProfit(),
+            transitionsBuilder:(context,animation,secondAnimation,child) {
+              animation=CurvedAnimation(parent:animation, curve: Curves.ease);
+              return FadeTransition(opacity: animation,child: child);
+            });
+
+      case '/user/change_profit':
+
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=> ChangeProfitUser(),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
             });
 
       case '/user/projects_admin':
@@ -198,6 +223,16 @@ class RouteGenerator {
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
+      case '/image':
+
+        return PageRouteBuilder(
+            pageBuilder: (context,animation,secondAnimation)=>
+            const AddImage(),
+            transitionsBuilder:(context,animation,secondAnimation,child) {
+              animation=CurvedAnimation(parent:animation, curve: Curves.ease);
+              return FadeTransition(opacity: animation,child: child);
             });
     }
     return null;

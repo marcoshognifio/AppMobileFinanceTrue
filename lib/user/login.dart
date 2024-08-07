@@ -43,6 +43,8 @@ class LoginPageState extends State<LoginPage> {
       if (data['success'] == true) {
         currentUser = data['user'];
         token =data["token"];
+        listCurrentProjects.add(currentProject);
+        listRoutes.add('/user/projects_create');
         await Navigator.pushNamed(context, '/user/projects_create');
       }
     }

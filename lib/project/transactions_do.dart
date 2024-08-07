@@ -36,7 +36,7 @@ class ListTransactionsDoState extends State<ListTransactionsDo> {
                   }) : emptyPage("Aucune transaction vers un sous projet n'a été ajoutée",
                   currentProject['administrateur']['id'] == currentUser['id']?
                   ButtonWidget(text: "Ajouter une transaction", onTap:
-                      ()async{await Navigator.pushNamed(context,'/project/addSpend' );}) :
+                      ()async{await Navigator.pushNamed(context,'/project/saveTransaction' );}) :
                       Container());
             }
             else {

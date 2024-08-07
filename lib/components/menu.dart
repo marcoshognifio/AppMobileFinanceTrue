@@ -22,6 +22,7 @@ class _MenuWidgetState extends State<MenuWidget> {
           child: const Icon(Icons.more_vert,color: Colors.white,),
         ),
         onSelected: (value) async {
+          listRoutes.add( widget.menuOptions[value][1]);
           await Navigator.pushNamed(context, widget.menuOptions[value][1]);
         },
         itemBuilder: (BuildContext context) => listMenuItem()

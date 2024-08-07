@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_memoire/components/data_class.dart';
@@ -21,11 +20,11 @@ class _InfoProjectNewState extends State<InfoProjectNew> {
   TextStyle titleStyle = GoogleFonts.lato(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
   TextStyle titleLowerStyle = const TextStyle(color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15);
 
-  actionFunction() async {
 
-    currentProject = project;
-    await DataClass().getUnderProjects(currentProject['id']);
-    Navigator.pushNamed(context,'/project/Info');
+  @override
+  void initState() {
+    super.initState();
+    listArticles = [];
   }
 
   @override
@@ -191,6 +190,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
   actionFunction() async {
     currentProject = widget.data;
     await DataClass().getUnderProjects(currentProject['id']);
+    listCurrentProjects.add(currentProject);
     Navigator.pushNamed(context,'/project/Info');
   }
   @override

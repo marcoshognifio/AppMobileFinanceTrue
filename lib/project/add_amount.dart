@@ -57,7 +57,9 @@ class AddAmountState extends State<AddAmount> {
 
       final uri = Uri.parse("$url/api/projet/$projectRecipientController/ajoutfond");
       
-      final response = await http.post(uri,body : jsonEncode(request),headers: {"Content-Type": "application/json","Authorization":"Bearer $token"});
+      final response = await http.post(uri,
+          headers: {"Content-Type": "application/json","Authorization":"Bearer $token"},
+          body : jsonEncode(request));
 
       final Map<String, dynamic> data = json.decode(response.body);
 
