@@ -13,7 +13,8 @@ import 'package:projet_memoire/project/transaction_between_projects.dart';
 import 'package:projet_memoire/project/transactions_do.dart';
 import 'package:projet_memoire/project/transactions_get.dart';
 import 'package:projet_memoire/user/change_profit_user.dart';
-import 'package:projet_memoire/user/connection.dart';
+import 'package:projet_memoire/user/inscription.dart';
+import 'package:projet_memoire/user/login.dart';
 import 'package:projet_memoire/user/user_index.dart';
 import 'package:projet_memoire/user/user_profit.dart';
 
@@ -28,11 +29,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      navigatorObservers: [routeObserver],
       title: 'Finance True App',
       onGenerateRoute:(settings)=>RouteGenerator.generatorRoute(settings),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/login',
     );
   }
 }
@@ -46,7 +46,18 @@ class RouteGenerator {
       case '/login':
         return PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
-            pageBuilder:(context, animation, secondAnimation)=>const ConnectionPage(),
+            pageBuilder:(context, animation, secondAnimation)=>const LoginPage(),
+            transitionsBuilder: (context, animation, secondAnimation,child) {
+              var begin=const Offset(0.0, 1.0);
+              var end=const Offset(0.0, 0.0);
+              var tween=Tween(begin: begin,end:end);
+              return SlideTransition(position: animation.drive((tween)),child: child);
+            });
+
+      case '/inscription':
+        return PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder:(context, animation, secondAnimation)=>const InscriptionPage(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
               var begin=const Offset(0.0, 1.0);
               var end=const Offset(0.0, 0.0);

@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet_memoire/components/get_image.dart';
@@ -33,7 +33,8 @@ class InscriptionPageState extends State<InscriptionPage> {
   final telephoneController = TextEditingController();
   final emailController=TextEditingController();
   final passwordController = TextEditingController();
-  late GetImage imageController ;
+  late String imageController;
+  late GetImage getImage;
 
   @override
   void dispose() {
@@ -53,49 +54,83 @@ class InscriptionPageState extends State<InscriptionPage> {
 
     if (formKey.currentState!.validate()) {
 
-      Map<String,dynamic> request = {
-        'name' : nomController.text,
-        'telephone' : telephoneController.text,
-        'email' : emailController.text,
-        'password' : passwordController.text,
+      XFile? a = getImage.getImageFile();
+      late Map body;
+      Uri uri = Uri.parse("$url/api/save_image");
+      if(a != null){
+        var request = http.MultipartRequest('POST', uri)
+          ..files.add(await http.MultipartFile.fromPath('image', a.path));
+
+        request.fields['type'] = "user";
+        request.headers.addAll( {
+          "Authorization": "Bearer $token"
+        });
+        http.Response response = await http.Response.fromStream(await request.send());
+        if (response.statusCode == 200) {
+
+
+          body = jsonDecode(response.body);
+          print(body);
+
+        }
+        else{
+          print("false");
+        }
+
+      }
+
+      imageController = body['path'];
+      Map<String,dynamic> data = {
+        'name': nomController.text,
+        'telephone': telephoneController.text,
+        'email': emailController.text,
+        'password': passwordController.text,
         //'image' : imageController.getNameImage()
       };
 
-      print(request);
-      final uri = Uri.parse("$url/api/user/save_user");
-      final response = await http.post(uri,body : request);
-      final Map<String, dynamic> data = json.decode(response.body);
+      data['image'] = a != null ? imageController : true == true;
 
-      if(data['success'] ==true){
-       DefaultTabController.of(context).animateTo(0);
+
+      uri = Uri.parse("$url/api/user/save_user");
+
+      final response = await http.post(uri,
+          body : jsonEncode(data),
+          headers: {"Content-Type": "application/json","Authorization":"Bearer $token"}
+      );
+      data = json.decode(response.body);
+
+      if(data['success'] == true){
+        await Navigator.pushNamed(context, '/login');
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              header(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40.0),
-                child: content(),
-              ),
-            ],
+    return Scaffold(
+      body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
           ),
-        ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                header(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40.0),
+                  child: content(),
+                ),
+              ],
+            ),
+          ),
+      ),
     );
   }
 
   Widget content() {
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      margin: const EdgeInsets.only(left: 30, right: 30,bottom: 20),
+      padding: const EdgeInsets.only(bottom: 20,left: 20,right: 20),
+      margin: const EdgeInsets.only(left: 15, right: 15),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.white.withOpacity(0.15),),
@@ -142,6 +177,7 @@ class InscriptionPageState extends State<InscriptionPage> {
                       EntryField(text:  'votre email', type: 'email',
                           express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
                           control:  emailController,required:  true,error:  ''),
+                      getImage =  GetImage(textDisplay: 'Choisissez une image'),
                       EntryField(text:  'votre mot de passe',type:  'password',express:  RegExp(''),
                          control:  passwordController,required: true,error:  ''),
 
@@ -149,13 +185,13 @@ class InscriptionPageState extends State<InscriptionPage> {
                         children: [
                           ButtonWidget(text: 'S\'inscrire',onTap:  actionFunction),
                           Padding(
-                            padding: const EdgeInsets.only(top: 10.0, right: 20),
+                            padding: const EdgeInsets.only(top: 10.0, right: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Avez vous un compte ?   "),
+                                const Text("Avez vous un compte ?"),
                                 TextButton(
-                                    onPressed: () {DefaultTabController.of(context).animateTo(0);},
+                                    onPressed: () {Navigator.pushNamed(context, '/login');},
                                     child: const Text('Connectez-vous',
                                       style: TextStyle(
                                           color: Colors.blueAccent),))
@@ -178,7 +214,8 @@ class InscriptionPageState extends State<InscriptionPage> {
 
   Widget header() {
     return Container(
-      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(top: 25, bottom: 20,left: 20,right: 20),
+      margin: const EdgeInsets.all(15),
       child: const Column(
         children: [
           Padding(

@@ -19,7 +19,7 @@ class GetList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: const EdgeInsets.only(top: 0, bottom: 20),
+      padding: const EdgeInsets.only(top: 0, bottom: 8),
       child:Container(
           width: 350,
           decoration: BoxDecoration(

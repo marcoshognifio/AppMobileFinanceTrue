@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:projet_memoire/components/data_class.dart';
 
 //ignore: must_be_immutable
 class EntryField extends StatefulWidget {
@@ -20,9 +21,10 @@ class _EntryFieldState extends State<EntryField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0, top: 15),
+      padding: const EdgeInsets.only(bottom: 10.0, top: 8),
       child: Container(
         width: 350,
+        height: 50,
         decoration: BoxDecoration(
           color:  Colors.white,
           borderRadius:  BorderRadius.circular(20),
@@ -133,10 +135,10 @@ Widget header( String text) {
 
 Widget content(String text, Widget widget) {
   return Container(
-    padding:const EdgeInsets.only(bottom: 20),
-    margin: const EdgeInsets.only(left: 30, right: 30,bottom: 40),
+    padding:const EdgeInsets.only(bottom: 20,left: 15,right: 15),
+    margin: const EdgeInsets.only(left: 15, right: 15,bottom: 40),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: colorContainer,
       borderRadius: BorderRadius.circular(5),
       border: Border.all(color: Colors.blueAccent,width: 1),
       boxShadow: const [BoxShadow(

@@ -1,7 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../components/app_bar.dart';
 import '../components/button.dart';
 import '../components/components.dart';
@@ -42,20 +40,23 @@ class AddImageState extends State<AddImage> {
   }
 
   actionFunction() async{
+    
+    XFile? a = getImage.getImageFile();
+    final uri = Uri.parse("$url/api/save_image");
+    final request = http.MultipartRequest('POST', uri)
+      ..files.add(await http.MultipartFile.fromPath('image', a!.path));
+    request.fields['type'] = "project";
+    request.headers.addAll( {
+      "Authorization": "Bearer $token"
+    });
+    http.Response response = await http.Response.fromStream(await request.send());
+    if (response.statusCode == 200) {
 
-
-
-    //Response response = await dio.post(, data: formData);
-    //{"Content-Type": "multipart/form-data","Authorization":"Bearer $token"}
-
-
-    /*if (response.statusCode == 200) {
-     print(response.statusMessage);
-      print("Image téléchargée avec succès");
-    } else {
-
-      print("Erreur lors du téléchargement de l'image");
-    }*/
+      print(response.body);
+    }
+    else{
+      print("false");
+    }
   }
 
 

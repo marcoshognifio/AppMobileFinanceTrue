@@ -37,6 +37,7 @@ class LoginPageState extends State<LoginPage> {
         'email': emailController.text,
         'password': passwordController.text
       };
+      print('bonjour');
       final uri = Uri.parse("$url/api/user/login");
       final response = await http.post(uri, body: request);
       final Map<String, dynamic> data = json.decode(response.body);
@@ -46,6 +47,9 @@ class LoginPageState extends State<LoginPage> {
         listCurrentProjects.add(currentProject);
         listRoutes.add('/user/projects_create');
         await Navigator.pushNamed(context, '/user/projects_create');
+      }
+      else{
+        print(data['success']);
       }
     }
   }
@@ -58,35 +62,38 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              header(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40.0),
-                child: content(),
-              ),
-            ],
+    return  Scaffold(
+      body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                header(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 150.0),
+                  child: content(),
+                ),
+              ],
+            ),
           ),
         ),
-      );
+    );
   }
+
 
   Widget content() {
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      margin: const EdgeInsets.only(left: 30, right: 30),
+      padding: const EdgeInsets.only(bottom: 20,left: 20,right: 20),
+      margin: const EdgeInsets.only(left: 15, right: 15),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.white.withOpacity(0.15),),
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight, 
-            colors: [const Color(0xff7a91f8).withOpacity(1),Colors.white.withOpacity(0.3)]
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [const Color(0xff7a91f8).withOpacity(1),Colors.white.withOpacity(0.3)]
           )
 
       ),
@@ -103,9 +110,9 @@ class LoginPageState extends State<LoginPage> {
                         child: Image.asset('images/Logo5.png', width: 130)),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      "Connectez vous pour accéder à vos projets si vous avez un compte",
+                      "Inscrivez vous pour bénéficier des services de notre application",
                       style: GoogleFonts.actor(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -142,9 +149,9 @@ class LoginPageState extends State<LoginPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Vous n'avez pas de compte ?   "),
+                                const Text("Pas de compte ?"),
                                 TextButton(
-                                    onPressed: () {DefaultTabController.of(context).animateTo(1);},
+                                    onPressed: () {Navigator.pushNamed(context, '/inscription');},
                                     child: const Text('Inscriver-vous',
                                       style: TextStyle(
                                           color: Colors.blueAccent),))
@@ -167,7 +174,8 @@ class LoginPageState extends State<LoginPage> {
 
   Widget header() {
     return Container(
-      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(top:25,bottom: 20,left: 20,right: 20),
+      margin: const EdgeInsets.all(15),
       child: const Column(
         children: [
           Padding(

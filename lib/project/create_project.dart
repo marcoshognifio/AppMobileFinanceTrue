@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import '../components/app_bar.dart';
 import '../components/button.dart';
 import '../components/components.dart';
 import '../components/data_class.dart';
 import 'package:http/http.dart' as http;
+import '../components/get_image.dart';
 import '../components/navbar_user.dart';
 
 //ignore: must_be_immutable
@@ -37,6 +39,8 @@ class AddProjectState extends State<AddProject> {
   //final imageController=TextEditingController();
   final dateEndController = TextEditingController();
   final emailController = TextEditingController();
+  late String imageController;
+  late GetImage getImage;
 
   @override
   void dispose() {
@@ -50,6 +54,29 @@ class AddProjectState extends State<AddProject> {
 
   actionFunction(int admin) async {
     if (formKey.currentState!.validate()) {
+
+      XFile? a = getImage.getImageFile();
+      late Map body;
+      Uri uri = Uri.parse("$url/api/save_image");
+      if(a != null) {
+        var request = http.MultipartRequest('POST', uri)
+          ..files.add(await http.MultipartFile.fromPath('image', a.path));
+
+        request.fields['type'] = "project";
+        request.headers.addAll({
+          "Authorization": "Bearer $token"
+        });
+        http.Response response = await http.Response.fromStream(
+            await request.send());
+        if (response.statusCode == 200) {
+          body = jsonDecode(response.body);
+          print(body);
+        }
+        else {
+          print("false");
+        }
+      }
+      imageController = body['path'];
       Map<String, dynamic> project = {};
       project['nom'] = nomController.text;
       descriptionController.text.isNotEmpty ?
@@ -58,6 +85,7 @@ class AddProjectState extends State<AddProject> {
       project['budget_prevu'] = budgetController.text : true == true;
       dateEndController.text.isNotEmpty ?
       project['date_fin'] = dateEndController.text : true == true;
+      project['image'] = a != null ? imageController : true == true;
 
       if (widget.hasParent == true) {
         project['createur_id'] = currentProject['administrateur']['id'];
@@ -69,7 +97,9 @@ class AddProjectState extends State<AddProject> {
         project['administrateur_id'] = admin;
       }
 
-      final uri = Uri.parse("$url/api/projet/create_projet");
+      print(jsonEncode(project));
+
+      uri = Uri.parse("$url/api/projet/create_projet");
       final response = await http.post(uri, body: jsonEncode(project),
           headers: {
             "Content-Type": "application/json",
@@ -103,7 +133,7 @@ class AddProjectState extends State<AddProject> {
       return data;
     }
     else {
-      return false;
+      return {} ;
     }
   }
 
@@ -131,7 +161,7 @@ class AddProjectState extends State<AddProject> {
                         key: formKey,
                         child: Column(
                           children: [
-                            EntryField( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z][a-zA-Z0-9 ]+$'),
+                            EntryField( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z]+[a-zA-Z0-9 \-]+[a-zA-Z]$'),
                                 control: nomController,required: true,error: 'Entre invalide'),
                             EntryField( text: 'Description du projet(Facultative)',type:  'text',express:  RegExp(''),
                                 control:  descriptionController,required: false,error: ''),
@@ -146,6 +176,7 @@ class AddProjectState extends State<AddProject> {
                                 control: emailController,
                                 required: true,
                                 error: 'Veillez entrer un email'),
+                            getImage =  GetImage(textDisplay: 'Choisissez une image'),
                             ButtonWidget(text:'Se connecter',onTap: ()async{
 
                               Map<String,dynamic> data = await searchUser();
@@ -168,8 +199,7 @@ class AddProjectState extends State<AddProject> {
                                       actions: [
 
                                         TextButton(onPressed:() async{
-
-
+                                          print(data['user']['id']);
                                           await actionFunction(data['user']['id']);
                                         }, child: const Text("Valider")),
 

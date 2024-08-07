@@ -4,9 +4,10 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const String url = "http://127.0.0.1:8000";
+const String url = "http://192.168.100.160:8000";
 
 String token="";
+Color colorContainer = const Color(0xfff8f8dd);
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
