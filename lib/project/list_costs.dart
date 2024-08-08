@@ -73,7 +73,14 @@ class ListCostsState extends State<ListCosts> {
                 title: ListTile(
                   dense: true,
                   contentPadding: const EdgeInsets.all(0),
-                  leading: SizedBox(width: 50, child: Image.asset('images/6.png',width: 100)),
+                  leading: SizedBox(width: 50, child: item['image'] != null ?
+                  IconButton(
+                      icon: Image.network(item['image'],width: 50,height: 50),
+                      onPressed: (){
+                        listRoutes.add('/displayImage');
+                        Navigator.pushNamed(context,'/displayImage',arguments: item['image'] );
+                      }
+                  ): Image.asset('images/6.png',width: 50)),
                   title:  Row(
                       children: [
                          Expanded(child: Text(item['objet'],

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../components/app_bar.dart';
 import '../components/components.dart';
 import '../components/data_class.dart';
+import '../components/get_image.dart';
 
 class AddSpent extends StatefulWidget {
   const AddSpent({super.key});
@@ -34,14 +35,21 @@ class AddSpentState extends State<AddSpent> {
       data["articles"] = listArticles;
       spend['montant'] ="$amount";
 
+      late GetImage getImage;
+
       showDialog(
           context: context,
           builder: (context) =>AlertDialog(
             title: const Text("Confirmation de la dépense"),
-            content:  EntryField(text:  'Objet de la depense',type: 'text',express: RegExp(r'^[a-zA-Z]+$'),
-              control: objetController,required: true,error: 'Votre entré doit etre constitué de lettre',),
+            content:  Column(
+              children: [
+                EntryField(text:  'Objet de la depense',type: 'text',express: RegExp(r'^[a-zA-Z]+$'),
+                  control: objetController,required: true,error: 'Votre entré doit etre constitué de lettre',),
+                getImage =  GetImage(textDisplay: 'Ajouter une image(Facultative)',type: 'depense',),
+              ],
+            ),
             actions: [
-              TextButton(onPressed: saveSpend, child: const Text("Valider")),
+              TextButton(onPressed: (){ saveSpend(getImage);}, child: const Text("Valider")),
               TextButton(onPressed:()async {
                 Navigator.of(context).pop();
               }, child: const Text("Quitter"))
@@ -65,12 +73,18 @@ class AddSpentState extends State<AddSpent> {
 
   }
 
-  saveSpend() async {
+  saveSpend(GetImage getImage) async {
 
     spend['objet'] = objetController.text;
+    Map body = await getImage.saveImage();
+    spend['image'] =  body != {} ? body['path']:"";
     data['depense'] = [spend];
     final uri = Uri.parse("$url/api/projet/${currentProject['id']}/depense/store");
     final response = await http.post(uri,body : jsonEncode(data),headers: {"Content-Type": "application/json","Authorization":"Bearer $token"},);
+    data = json.decode(response.body);
+    if(data['success'] == true) {
+      Navigator.pushNamed(context, '/project/Info');
+    }
   }
 
 

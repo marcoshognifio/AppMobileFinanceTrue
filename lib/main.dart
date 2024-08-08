@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projet_memoire/components/data_class.dart';
+import 'package:projet_memoire/components/display_image.dart';
 import 'package:projet_memoire/project/add_amount.dart';
 import 'package:projet_memoire/project/add_article.dart';
 import 'package:projet_memoire/project/add_depense.dart';
@@ -8,7 +8,6 @@ import 'package:projet_memoire/project/create_project.dart';
 import 'package:projet_memoire/project/delete_project.dart';
 import 'package:projet_memoire/project/infos_project_new.dart';
 import 'package:projet_memoire/project/list_costs.dart';
-import 'package:projet_memoire/project/test_image.dart';
 import 'package:projet_memoire/project/transaction_between_projects.dart';
 import 'package:projet_memoire/project/transactions_do.dart';
 import 'package:projet_memoire/project/transactions_get.dart';
@@ -41,7 +40,7 @@ class RouteGenerator {
   static Route<dynamic> ?generatorRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => const AddImage());//ConnectionPage() );//WelcomePage());
+        return MaterialPageRoute(builder: (context) => const LoginPage());//ConnectionPage() );//WelcomePage());
 
       case '/login':
         return PageRouteBuilder(
@@ -236,15 +235,14 @@ class RouteGenerator {
               return SlideTransition(position: animation.drive((tween)),child: child);
             });
 
-      case '/image':
-
+      case '/displayImage':
         return PageRouteBuilder(
-            pageBuilder: (context,animation,secondAnimation)=>
-            const AddImage(),
+            pageBuilder: (context,animation,secondAnimation)=> DisplayImage(imageUrl: settings.arguments as String),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
             });
+
     }
     return null;
   }

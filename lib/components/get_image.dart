@@ -2,16 +2,46 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'data_class.dart';
 
 //ignore: must_be_immutable
 class GetImage extends StatefulWidget {
-  GetImage({super.key,required this.textDisplay});
+  GetImage({super.key,required this.textDisplay,required this.type});
    XFile? imageFile;
     String textDisplay;
-
+    String type;
 
     XFile? getImageFile(){
       return imageFile;
+    }
+
+    Future<Map> saveImage() async{
+
+      if(imageFile != null){
+        late Map body;
+        Uri uri = Uri.parse("$url/api/save_image");
+        var request = http.MultipartRequest('POST', uri)
+          ..files.add(await http.MultipartFile.fromPath('image', imageFile!.path));
+
+        request.fields['type'] = type;
+        request.headers.addAll({
+          "Authorization": "Bearer $token"
+        });
+        http.Response response = await http.Response.fromStream(
+            await request.send());
+        if (response.statusCode == 200) {
+          body = jsonDecode(response.body);
+          return body;
+        }
+        else {
+          return {};
+        }
+      }
+      else{
+        return {};
+      }
+
     }
 
 

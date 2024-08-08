@@ -54,30 +54,8 @@ class InscriptionPageState extends State<InscriptionPage> {
 
     if (formKey.currentState!.validate()) {
 
-      XFile? a = getImage.getImageFile();
-      late Map body;
-      Uri uri = Uri.parse("$url/api/save_image");
-      if(a != null){
-        var request = http.MultipartRequest('POST', uri)
-          ..files.add(await http.MultipartFile.fromPath('image', a.path));
-
-        request.fields['type'] = "user";
-        request.headers.addAll( {
-          "Authorization": "Bearer $token"
-        });
-        http.Response response = await http.Response.fromStream(await request.send());
-        if (response.statusCode == 200) {
-
-
-          body = jsonDecode(response.body);
-          print(body);
-
-        }
-        else{
-          print("false");
-        }
-
-      }
+      Map body = await getImage.saveImage();
+      imageController =  body != {} ? body['path']:"";
 
       imageController = body['path'];
       Map<String,dynamic> data = {
@@ -85,13 +63,11 @@ class InscriptionPageState extends State<InscriptionPage> {
         'telephone': telephoneController.text,
         'email': emailController.text,
         'password': passwordController.text,
-        //'image' : imageController.getNameImage()
       };
+      data['image'] = imageController != "" ? imageController : true == true;
 
-      data['image'] = a != null ? imageController : true == true;
 
-
-      uri = Uri.parse("$url/api/user/save_user");
+      Uri uri = Uri.parse("$url/api/user/save_user");
 
       final response = await http.post(uri,
           body : jsonEncode(data),
@@ -177,7 +153,7 @@ class InscriptionPageState extends State<InscriptionPage> {
                       EntryField(text:  'votre email', type: 'email',
                           express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
                           control:  emailController,required:  true,error:  ''),
-                      getImage =  GetImage(textDisplay: 'Choisissez une image'),
+                      getImage =  GetImage(textDisplay: 'Choisissez une image',type: 'user',),
                       EntryField(text:  'votre mot de passe',type:  'password',express:  RegExp(''),
                          control:  passwordController,required: true,error:  ''),
 

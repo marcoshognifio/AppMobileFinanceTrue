@@ -198,7 +198,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
     return  ListTile(
           leading: Hero(
               tag:"image-project${widget.data['id']}",
-              child: Image.asset('images/6.png',width: 100)
+              child: widget.data['image'] != null ? Image.network(widget.data['image'],width: 100,height: 100,):Image.asset('images/6.png',width: 100)
           ),
           title:  SingleChildScrollView(
             scrollDirection: Axis.horizontal,
