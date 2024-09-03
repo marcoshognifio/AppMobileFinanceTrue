@@ -37,7 +37,7 @@ class LoginPageState extends State<LoginPage> {
         'email': emailController.text,
         'password': passwordController.text
       };
-      print('bonjour');
+
       final uri = Uri.parse("$url/api/user/login");
       final response = await http.post(uri, body: request);
       final Map<String, dynamic> data = json.decode(response.body);
