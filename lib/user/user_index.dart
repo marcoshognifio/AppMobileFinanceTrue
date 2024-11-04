@@ -83,7 +83,7 @@ class _FloatButtonState extends State<FloatButton> {
       visible: widget.controller,
       child: FloatingActionButton(
         heroTag: 'btn2',
-        backgroundColor: Colors.blueAccent ,
+        backgroundColor: colorApp ,
         onPressed:(){ Navigator.pushNamed(context,'/project/addProject');},
         child: const Icon(Icons.add,color:  Color(0xfff8f8dd),weight: 600,size: 20,),
       ),

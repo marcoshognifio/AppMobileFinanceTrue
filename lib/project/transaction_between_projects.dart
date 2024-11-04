@@ -20,14 +20,7 @@ class TransactionBetweenProjects extends StatefulWidget {
 class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> {
 
   int a=0;
-  TextStyle textStyle=const TextStyle(
-      color: Colors.white,
-      height: 2,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      wordSpacing: 10,
-      letterSpacing: 3
-  );
+
 
   final formKey=GlobalKey<FormState>();
   final objectController=TextEditingController();
@@ -73,97 +66,40 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
         backgroundColor: Colors.white,
         bottomNavigationBar: const NavbarUser(),
         appBar:  const AppBarWidget( menu:'/menuProject' ),
-        body: listUnderProjects.isNotEmpty ? Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(image:  AssetImage('images/bg1.png'),fit: BoxFit.cover)
-          ),
+        body: listUnderProjects.isNotEmpty ? SingleChildScrollView(
           child: Column(
             children: [
-              header(),
-              content(),
-            ],
-          )
-        ) : emptyPage("Ce projet n'a ni de sous-projet ni de projet parent."
-            " Donc la transaction n'est pas possible",Container() ),
-    );
-
-  }
-
-  Widget header() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: const Column(
-        children: [
-          Padding(
-            padding:  EdgeInsets.only(top:50, bottom: 10.0),
-            child: Row(children: [
-              Icon(Icons.label_important, color: Colors.white,),
               Padding(
-                padding:  EdgeInsets.all(15.0),
-                child: Text('Ajouter une transaction',
-                  style:
-                  TextStyle(
-                      fontFamily: 'Roboto-Regular',
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),),
-              )
-            ],),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget content() {
-    return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-      padding: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Colors.white.withOpacity(0.15),),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white.withOpacity(0.5),Colors.white.withOpacity(0.5)]
-          )
-
-      ),
-      child: Column(
-        children: [
-          Center(child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text(
                   "Enregistrer une transaltion entre le projet et un de ses sous-projets",
                   style: TextStyle(
-                      fontFamily: 'Roboto-Regular',
-                      color: Colors.white,
+                      fontFamily: 'Roboto',
+                      color: Colors.black,
                       fontWeight: FontWeight.w600,
-                      fontSize: 17,
+                      fontSize: screenWidth*0.06,
                       fontStyle: FontStyle.italic),),
               ),
-              SizedBox(
+              Center(
                 child: Form(
                   key: formKey,
                   child: Column(
                     children: [
                       getProjectRecipient =  GetList(items: DataClass().getItemsUnderProjects()),
-                      EntryField(text: 'Objet de la transaction',type: 'text',express:  RegExp(r''),control: objectController,
+                      EntryFieldForm(text: 'Objet de la transaction',type: 'text',express:  RegExp(r''),control: objectController,
                           required: true,error: ''),
-                      EntryField(text: 'Montant de la transaction',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
+                      EntryFieldForm(text: 'Montant de la transaction',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
                           control:  montantController,required: true,error: 'Entrez une valeur numerique'),
                       ButtonWidget(text:'Valider',onTap: actionFunction),
                     ],
                   ),
-                ),
+                )
               )
-
             ],
-          )),
-        ],
-      ),
+          ),
+        ) : emptyPage("Ce projet n'a ni de sous-projet ni de projet parent."
+            " Donc la transaction n'est pas possible",Container() ),
     );
+
   }
 }

@@ -39,9 +39,9 @@ class _EntryFieldState extends State<EntryField> {
           TextFormField(
             readOnly:  widget.type == 'date'? true:false,
             showCursor: widget.type == 'date'? false:true,
-            style: TextStyle(
+            style: const TextStyle(
                 fontFamily: 'Roboto',
-                color: colorApp,
+                color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontSize: 16
             ),
@@ -118,6 +118,107 @@ class _EntryFieldState extends State<EntryField> {
       ),
     );
   }
+}
+
+
+class EntryFieldForm extends StatefulWidget {
+  EntryFieldForm({super.key,required this.text,required this.type,required this.express,
+    required this.control,required this.required,this.icon, required this.error});
+  String  text, type;
+  RegExp express;
+  TextEditingController control;
+  bool required;
+  String error;
+  Icon? icon;
+
+  @override
+  State<EntryFieldForm> createState() => _EntryFieldFormState();
+}
+
+class _EntryFieldFormState extends State<EntryFieldForm> {
+
+  bool isObscured = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 35),
+      child: SizedBox(
+        height: 50,
+        child: TextFormField(
+          readOnly:  widget.type == 'date'? true:false,
+          showCursor: widget.type == 'date'? false:true,
+          style: const TextStyle(
+              fontFamily: 'Roboto',
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: 16
+          ),
+          onTap: widget.type != 'date'? (){}:
+              ()async{
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+            );
+            widget.control.text = "${pickedDate?.day}-${pickedDate?.month}-${pickedDate?.year}";
+          },
+          controller: widget.control,
+          obscureText: widget.type == 'password' ? isObscured : false ,
+          decoration: InputDecoration(
+              fillColor: Colors.grey.withOpacity(0.1),
+              filled: true,
+              hoverColor: Colors.grey.withOpacity(0.1),
+              labelText: widget.text,
+              labelStyle: TextStyle(
+                  fontFamily: 'Roboto',
+                  color: Colors.black,
+                  fontSize: screenWidth*0.040,
+              ),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(
+                      width: 0,
+                      style: BorderStyle.none
+                  )
+              ),
+              suffixIcon: widget.type == 'password'? IconButton(
+                  padding: const EdgeInsetsDirectional.only(end: 12),
+                  onPressed:(){
+                    setState(() {
+                      isObscured = isObscured == true ? false:true;
+                    });
+                  }
+                  , icon: const Icon(Icons.visibility)
+              ):null
+          ),
+          validator: (value) {
+            if(widget.required == true )
+            {
+              if(value!.isEmpty){
+                return 'Ce champ est obligatoire';
+              }
+              if (!widget.express.hasMatch(value))
+              {
+                return widget.error;
+              }
+              return null;
+            }
+            else
+            {
+              if (value!.isNotEmpty && !widget.express.hasMatch(value))
+              {
+                return widget.error;
+              }
+              else {
+                return null;
+              }
+            }
+          },
+        ),
+      ),
+    );
+  }
 
 
 }
@@ -172,15 +273,6 @@ Widget content(String text, Widget widget) {
   return Container(
     padding:const EdgeInsets.only(bottom: 20,left: 15,right: 15),
     margin: const EdgeInsets.only(left: 15, right: 15,bottom: 40),
-    decoration: BoxDecoration(
-      color: colorContainer,
-      borderRadius: BorderRadius.circular(5),
-      border: Border.all(color: Colors.blueAccent,width: 1),
-      boxShadow: const [BoxShadow(
-          color: Colors.grey,
-          offset: Offset(2, 2),
-          blurRadius: 5)], //Bo,
-    ),
     child: Column(
       children: [
         Center(child: Column(

@@ -22,6 +22,7 @@ class AddProjectState extends State<AddProject> {
 
   int a = 0;
   TextStyle textStyle = const TextStyle(
+      fontFamily: 'Roboto',
       color: Colors.white,
       height: 2,
       fontSize: 20,
@@ -122,81 +123,85 @@ class AddProjectState extends State<AddProject> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         bottomNavigationBar: const NavbarUser(),
         appBar: const AppBarWidget(menu: '/menuUser'),
         backgroundColor: Colors.white,
-        body: Container(
-          color: Colors.white,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                header("Création d'un Project"),
-                content("Ajouter un Projet pour gérer vos finances",
-                    SizedBox(
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            EntryField( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z]+[a-zA-Z0-9 \-]+[a-zA-Z]$'),
-                                control: nomController,required: true,error: 'Entre invalide'),
-                            EntryField( text: 'Description du projet(Facultative)',type:  'text',express:  RegExp(''),
-                                control:  descriptionController,required: false,error: ''),
-                            EntryField(text:  'Le budget prevu(Facultative)',type:  'text',express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
-                                control: budgetController,required: false,error:  'Entrez une valeur numerique'),
-                            EntryField(text: 'Date fin projet(Facultative)',type: 'date',express: RegExp(''),
-                                control: dateEndController,required: false,error:  ''),
-                            EntryField(text: 'Email du nouveau administrateur',
-                                type: 'text',
-                                express: RegExp(
-                                    r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
-                                control: emailController,
-                                required: true,
-                                error: 'Veillez entrer un email'),
-                            getImage =  GetImage(textDisplay: 'Choisissez une image',type: "project",),
-                            ButtonWidget(text:'Se connecter',onTap: ()async{
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "Ajouter un Projet pour gérer vos finances",
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                      fontStyle: FontStyle.italic),),
+              ),
+              Center(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      EntryFieldForm( text: 'Nom du projet',type: 'text',express:  RegExp(r'^[a-zA-Z]+[a-zA-Z0-9 \-]+[a-zA-Z]$'),
+                          control: nomController,required: true,error: 'Entre invalide'),
+                      EntryFieldForm( text: 'Description du projet(Facultative)',type:  'text',express:  RegExp(''),
+                          control:  descriptionController,required: false,error: ''),
+                      EntryFieldForm(text:  'Le budget prevu(Facultative)',type:  'text',express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
+                          control: budgetController,required: false,error:  'Entrez une valeur numerique'),
+                      EntryFieldForm(text: 'Date fin projet(Facultative)',type: 'date',express: RegExp(''),
+                          control: dateEndController,required: false,error:  ''),
+                      EntryFieldForm(text: 'Email du nouveau administrateur',
+                          type: 'text',
+                          express: RegExp(
+                              r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
+                          control: emailController,
+                          required: true,
+                          error: 'Veillez entrer un email'),
+                      getImage =  GetImage(textDisplay: 'Choisissez une image',type: "project",),
+                      ButtonWidget(text:'Se connecter',onTap: ()async{
 
-                              Map<String,dynamic> data = await searchUser();
+                        Map<String,dynamic> data = await searchUser();
 
-                              if(data['success'] == true ){
+                        if(data['success'] == true ){
 
-                                await showDialog(
-                                    context: context,
-                                    builder: (context) =>AlertDialog(
-                                      title: const Text("Confirmation de creation de projet",style: TextStyle(fontFamily: 'Roboto-Regular',),),
-                                      content:  Container(
-                                        height: 200,
-                                        child: Column(
-                                          children: [
-                                            Text('Voulez vous confirmer la creation du projet ${nomController.text} ayant pour administrateur}'),
-                                            Text("${data['user']['nom']} d'email ${data['user']['email']} ?",style: const TextStyle(fontFamily: 'Roboto-Regular',),)
-                                          ],
-                                        ),
-                                      ),
-                                      actions: [
+                          await showDialog(
+                              context: context,
+                              builder: (context) =>AlertDialog(
+                                title: const Text("Confirmation de creation de projet",style: TextStyle(fontFamily: 'Roboto',),),
+                                content:  Container(
+                                  height: 200,
+                                  child: Column(
+                                    children: [
+                                      Text('Voulez vous confirmer la creation du projet ${nomController.text} ayant pour administrateur}'),
+                                      Text("${data['user']['nom']} d'email ${data['user']['email']} ?",style: const TextStyle(fontFamily: 'Roboto',),)
+                                    ],
+                                  ),
+                                ),
+                                actions: [
 
-                                        TextButton(onPressed:() async{
-                                          print(data['user']['id']);
-                                          await actionFunction(data['user']['id']);
-                                        }, child: const Text("Valider",style: TextStyle(fontFamily: 'Roboto-Regular',),)),
+                                  TextButton(onPressed:() async{
+                                    print(data['user']['id']);
+                                    await actionFunction(data['user']['id']);
+                                  }, child: const Text("Valider",style: TextStyle(fontFamily: 'Roboto',),)),
 
-                                        TextButton(onPressed:()async {
-                                          Navigator.of(context).pop();
-                                        }, child: const Text("Quitter",style: TextStyle(fontFamily: 'Roboto-Regular',),))
-                                      ],
-                                    )
-                                );
+                                  TextButton(onPressed:()async {
+                                    Navigator.of(context).pop();
+                                  }, child: const Text("Quitter",style: TextStyle(fontFamily: 'Roboto',),))
+                                ],
+                              )
+                          );
 
-                              }
+                        }
 
-                            }),
-                          ],
-                        ),
-                      ),
-                    )
+                      }),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         )
     );

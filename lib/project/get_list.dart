@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/data_class.dart';
+
 //ignore: must_be_immutable
 class GetList extends StatelessWidget {
   GetList({super.key,required this.items});
@@ -19,55 +21,45 @@ class GetList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: const EdgeInsets.only(top: 0, bottom: 8),
-      child:Container(
-          width: 350,
-          decoration: BoxDecoration(
-            color:  Colors.white,
-            borderRadius:  BorderRadius.circular(20),
-            boxShadow:const  [BoxShadow(
-                color: Colors.grey,
-                offset: Offset(2, 2),
-                blurRadius: 5)],
-          ),
-          child: Column(
-            children: [
-              ButtonTheme(
-                alignedDropdown: true,
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      hoverColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide: BorderSide(
-                              width: 0,
-                              style: BorderStyle.none
-                          )
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 35),
+      child:SizedBox(
+        height: 50,
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButtonFormField(
+              decoration: InputDecoration(
+                  fillColor:Colors.grey.withOpacity(0.1),
+                  filled: true,
+                  hoverColor: Colors.white,
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none
                       )
-                  ),
-                  value: selectedValue,
-                  hint: const Text("Choisissez le projet ",style: TextStyle(fontFamily: 'Roboto-Regular',),),
-                  items: listItems(items),
-                  onChanged: (int? value) {
-                    if(value != null){
-                      selectedValue = value;
-                    }
-                  },
-                  validator: (value) {
-                    if (value == null ) {
-                      return 'Veuillez sélectionner une option';
-                    }
-                    return null;
-                  }
-                        
-                ),
+                  )
               ),
-        
-            ],
+              value: selectedValue,
+              hint: Text("Choisissez le projet ",style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: screenWidth*0.040,
+                  color: Colors.black),),
+              items: listItems(items),
+              onChanged: (int? value) {
+                if(value != null){
+                  selectedValue = value;
+                }
+              },
+              validator: (value) {
+                if (value == null ) {
+                  return 'Veuillez sélectionner une option';
+                }
+                return null;
+              }
+
           ),
         ),
+      ),
     );
   }
 

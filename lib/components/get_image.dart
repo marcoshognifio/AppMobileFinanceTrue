@@ -60,34 +60,43 @@ class GetImageState extends State<GetImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 0, bottom: 20),
-        child: Container(
-            width: 350,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(2, 2),
-                  blurRadius: 10)
-              ],
-            ),
-            child: ElevatedButton(
-              onPressed: ()async {
+    return  Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 35),
+        child: SizedBox(
+            height: 50,
+            child: TextButton(
+              style:  ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey.withOpacity(0.2),
+                minimumSize: const Size.fromHeight(50),
+                padding:const  EdgeInsets.only(top: 15, bottom: 15,left: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
+              onPressed:()async {
                 final ImagePicker picker = ImagePicker();
-                widget.imageFile = await picker.pickImage(source: ImageSource.gallery);
-
-                if(widget.imageFile != null){
+                widget.imageFile =
+                await picker.pickImage(source: ImageSource.gallery);
+                if (widget.imageFile != null) {
                   setState(() {
-                    widget.textDisplay =widget.imageFile!.name;
+                    widget.textDisplay = widget.imageFile!.name;
                   });
                 }
               },
-              child: Text(widget.textDisplay,style: const TextStyle(fontFamily: 'Roboto-Regular',),),
-            ),
-
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.textDisplay,style: TextStyle(
+                          fontFamily: 'Roboto',
+                          color: Colors.black,
+                          fontSize: screenWidth*0.040,
+                      )),
+                  ),
+                ],
+              ),
+            )
         )
     );
   }

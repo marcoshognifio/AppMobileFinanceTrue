@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:true_finance/components/data_class.dart';
 
 //ignore: must_be_immutable
 class ButtonWidget extends StatelessWidget {
@@ -27,7 +28,7 @@ class ButtonWidget extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
-                    backgroundColor: Colors.blueAccent, //Color(0xff2f52f6),
+                    backgroundColor: colorApp, //Color(0xff2f52f6),
                     padding:const  EdgeInsets.only(top: 15, bottom: 15),
                     elevation: 2,
                     shape: RoundedRectangleBorder(

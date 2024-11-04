@@ -18,7 +18,7 @@ class _MenuWidgetState extends State<MenuWidget> {
         child: FloatingActionButton(
           onPressed:(){ _popupMenu.currentState?.showButtonMenu();},
           heroTag: 'btn1',
-          backgroundColor: Colors.blueAccent ,
+          backgroundColor: colorApp ,
           child: const Icon(Icons.more_vert,color: Colors.white,),
         ),
         onSelected: (value) async {

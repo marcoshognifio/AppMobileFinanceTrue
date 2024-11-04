@@ -11,9 +11,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.blueAccent,
-        boxShadow: [
+      decoration: BoxDecoration(
+        color: colorApp,
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             offset: Offset(
@@ -32,9 +32,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       child: AppBar(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: colorApp,
           title: const Center(child: Text('True Finance App',
-                style: TextStyle(fontFamily: 'Roboto-Regular',color: Colors.white,fontStyle: FontStyle.italic,fontSize: 17,fontWeight: FontWeight.w900))),
+                style: TextStyle(fontFamily: 'Roboto',color: Colors.white,fontStyle: FontStyle.italic,fontSize: 17,fontWeight: FontWeight.w900))),
 
           leading:IconButton(
               icon: const  Icon(Icons.arrow_back_sharp,size: 40,color: Colors.white,),

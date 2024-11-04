@@ -8,7 +8,7 @@ const String url = "http://127.0.0.1:8000";
 
 String token="";
 Color colorContainer = const Color(0xfff8f8dd);
-Color colorApp = Colors.blueAccent;
+Color colorApp = const Color(0xFF00358A);
 double screenWidth = 0;
 double screenHeight = 0;
 

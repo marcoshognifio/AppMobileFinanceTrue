@@ -5,7 +5,7 @@ import 'package:true_finance/components/data_class.dart';
 class NavbarUser extends StatelessWidget {
   const NavbarUser({super.key});
   final TextStyle textStyle = const TextStyle(
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'Roboto',
       color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 15)   ;
@@ -14,9 +14,9 @@ class NavbarUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 15),
-        decoration: const BoxDecoration(
-         color: Colors.blueAccent,
-        boxShadow: [
+        decoration: BoxDecoration(
+         color: colorApp,
+        boxShadow: const [
           BoxShadow(
             color: Colors.black,
             offset: Offset(

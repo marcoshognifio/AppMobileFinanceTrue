@@ -75,32 +75,36 @@ class AddAmountState extends State<AddAmount> {
         bottomNavigationBar: const NavbarUser(),
         appBar: const AppBarWidget(menu: '/menuUser'),
         backgroundColor: Colors.white,
-        body: listProjectUser.isNotEmpty ? Container(
-          decoration: const BoxDecoration(
-             color: Colors.white
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                header('Ajout de Fond à un projet'),
-                content("Ajouter de fond à l'un de vos projets ",SizedBox(
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                children: [
-                                  getProjectRecipient =  GetList(items: DataClass().getItemsProjectsUser()),
-                                  EntryField(text: 'Objet du depot de fond',type: 'text',express:  RegExp(r''),control: objectController,
-                                      required: true,error: ''),
-                                  EntryField(text: 'Montant du fond',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
-                                      control:  amountController,required: true,error: 'Entrez une valeur numerique'),
-                                  ButtonWidget(text:'Valider',onTap: actionFunction),
-                                ],
-                              ),
-                            ),
-                          )
-                        ),
-                  ],
-            ),
+        body: listProjectUser.isNotEmpty ? SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  "Ajouter un fond à un de vos projets",
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: screenWidth*0.045,
+                      fontStyle: FontStyle.italic),),
+              ),
+              Center(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      getProjectRecipient =  GetList(items: DataClass().getItemsProjectsUser()),
+                      EntryFieldForm(text: 'Objet du depot de fond',type: 'text',express:  RegExp(r''),control: objectController,
+                          required: true,error: ''),
+                      EntryFieldForm(text: 'Montant du fond',type:  'text',express:  RegExp(r'^[0-9]+\.?[0-9]+$'),
+                          control:  amountController,required: true,error: 'Entrez une valeur numerique'),
+                      ButtonWidget(text:'Valider',onTap: actionFunction),
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
         ) : emptyPage("Vous n'avez aucun projet.",Container() )
     );
