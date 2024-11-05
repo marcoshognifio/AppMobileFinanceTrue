@@ -77,7 +77,7 @@ class TransactionBetweenProjectsState extends State<TransactionBetweenProjects> 
                       fontFamily: 'Roboto',
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
-                      fontSize: screenWidth*0.06,
+                      fontSize: screenWidth*0.05,
                       fontStyle: FontStyle.italic),),
               ),
               Center(

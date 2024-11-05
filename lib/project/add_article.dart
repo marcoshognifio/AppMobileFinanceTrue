@@ -19,6 +19,7 @@ class AddArticleState extends State<AddArticle> {
 
   int a = 0;
   TextStyle textStyle = const TextStyle(
+      fontFamily: 'Roboto',
       color: Colors.white,
       height: 2,
       fontSize: 20,
@@ -64,49 +65,49 @@ class AddArticleState extends State<AddArticle> {
         bottomNavigationBar: const NavbarUser(),
         appBar: const AppBarWidget(menu: '/menuUser'),
         backgroundColor: Colors.white,
-        body: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
             child: Column(
               children: [
-                header("Ajout d'un article"),
-                content("Ajouter un article a votre catalogue de dépense",
-                    SizedBox(
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            EntryField(text: 'Nom',
-                                type: 'text',
-                                express: RegExp(r'^[a-zA-Z ]+[a-zA-Z0-9 ]+$'),
-                                control: nomController,
-                                required: true,
-                                error: 'le nom entré n\'est pas valide'),
-                            EntryField(text: 'Quantité de l\'article',
-                                type: 'text',
-                                express: RegExp(''),
-                                control: quantityController,
-                                required: true,
-                                error: ''),
-                            EntryField(text: 'Le prix de l\'article',
-                                type: 'text',
-                                express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
-                                control: priceController,
-                                required: true,
-                                error: 'Entrez une valeurs numerique'),
-                            ButtonWidget(
-                                text: 'Se connecter', onTap: actionFunction),
-                          ],
-                        ),
-                      ),
-                    )
-                )
-                ,
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    "Ajouter un article a votre catalogue de dépense",
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: screenWidth*0.045,
+                        fontStyle: FontStyle.italic),),
+                ),
+                Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        EntryFieldForm(text: 'Nom',
+                            type: 'text',
+                            express: RegExp(r'^[a-zA-Z ]+[a-zA-Z0-9 ]+$'),
+                            control: nomController,
+                            required: true,
+                            error: 'le nom entré n\'est pas valide'),
+                        EntryFieldForm(text: 'Quantité de l\'article',
+                            type: 'text',
+                            express: RegExp(''),
+                            control: quantityController,
+                            required: true,
+                            error: ''),
+                        EntryFieldForm(text: 'Le prix de l\'article',
+                            type: 'text',
+                            express: RegExp(r'^[0-9]+(.)?[0-9]+$'),
+                            control: priceController,
+                            required: true,
+                            error: 'Entrez une valeurs numerique'),
+                        ButtonWidget(
+                            text: 'Enregistrer', onTap: actionFunction),
+                      ],
+                    ),
+                  ),
               ],
             ),
-          ),
         )
     );
   }

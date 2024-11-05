@@ -161,7 +161,7 @@ class AddProjectState extends State<AddProject> {
                           required: true,
                           error: 'Veillez entrer un email'),
                       getImage =  GetImage(textDisplay: 'Choisissez une image',type: "project",),
-                      ButtonWidget(text:'Se connecter',onTap: ()async{
+                      ButtonWidget(text:'Enregistrer',onTap: ()async{
 
                         Map<String,dynamic> data = await searchUser();
 

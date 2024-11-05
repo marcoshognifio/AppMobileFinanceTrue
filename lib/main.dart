@@ -15,7 +15,7 @@ import 'package:true_finance/user/change_profit_user.dart';
 import 'package:true_finance/user/inscription.dart';
 import 'package:true_finance/user/login.dart';
 import 'package:true_finance/user/user_index.dart';
-import 'package:true_finance/user/user_profit.dart';
+import 'package:true_finance/user/user_profile.dart';
 
 void main() {
   runApp(const MyApp() );
@@ -78,7 +78,7 @@ class RouteGenerator {
 
         return PageRouteBuilder(
             pageBuilder: (context,animation,secondAnimation)=>
-                const UserProfit(),
+                const ProfitUser(),
             transitionsBuilder:(context,animation,secondAnimation,child) {
               animation=CurvedAnimation(parent:animation, curve: Curves.ease);
               return FadeTransition(opacity: animation,child: child);
@@ -90,7 +90,7 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=> ChangeProfitUser(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
@@ -111,7 +111,7 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=> AddProject(hasParent: false,),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
@@ -123,7 +123,7 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=> AddProject(hasParent: true),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
@@ -134,7 +134,7 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=> const ChangeAdminProject(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
@@ -145,7 +145,7 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=>const AddArticle(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
@@ -156,7 +156,7 @@ class RouteGenerator {
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder:(context, animation, secondAnimation)=>const AddSpent(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);
@@ -177,7 +177,7 @@ class RouteGenerator {
             pageBuilder:(context, animation, secondAnimation)=>
             const TransactionBetweenProjects(),
             transitionsBuilder: (context, animation, secondAnimation,child) {
-              var begin=const Offset(0.0, 1.0);
+              var begin=const Offset(1.0, 0.0);
               var end=const Offset(0.0, 0.0);
               var tween=Tween(begin: begin,end:end);
               return SlideTransition(position: animation.drive((tween)),child: child);

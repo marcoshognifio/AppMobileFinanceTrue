@@ -145,36 +145,41 @@ class ChangeProfitUserState extends State<ChangeProfitUser> {
         bottomNavigationBar: const NavbarUser(),
         appBar: const AppBarWidget(menu: '/menuUser'),
         backgroundColor: Colors.white,
-        body: Container(
-          color: Colors.white,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                header("Modification de profit"),
-                content("Modifier votre profit si vous sentez le besoin",
-                    SizedBox(
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            EntryField(text:  'Nouveau Nom (Facultatif)',type:  'text',express:  RegExp(r''),
-                                control:  nomController,required:  false,error:  '', icon: const Icon(Icons.person),),
-                            EntryField(text: 'Telephone (Facultatif)',type: 'text',express: RegExp(r'^[0-9]+$'),
-                                control: telephoneController,required: false,error:  'Entrez des valeurs numeriques', icon: const Icon(Icons.numbers),),
-                            EntryField(text:  'Email (Facultatif)', type: 'email',
-                                express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
-                                control:  emailController,required:  false,error:  '', icon: const Icon(Icons.email),),
-                            EntryField(text:  'Nouveau Mot de Passe (Facultatif)',type:  'password',express:  RegExp(''),
-                                control:  passwordController,required: false,error:  '', icon: const Icon(Icons.lock),),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  "Modification du Profile Utilisateur ",
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: screenWidth*0.045,
+                      fontStyle: FontStyle.italic),),
+              ),
+              Center(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      EntryFieldForm(text:  'Nouveau Nom (Facultatif)',type:  'text',express:  RegExp(r''),
+                        control:  nomController,required:  false,error:  '', icon: const Icon(Icons.person),),
+                      EntryFieldForm(text: 'Telephone (Facultatif)',type: 'text',express: RegExp(r'^[0-9]+$'),
+                        control: telephoneController,required: false,error:  'Entrez des valeurs numeriques', icon: const Icon(Icons.numbers),),
+                      EntryFieldForm(text:  'Email (Facultatif)', type: 'email',
+                        express:  RegExp(r'^[a-zA-Z0-9]+\@{1}[a-z]+\.{1}[a-z]+$'),
+                        control:  emailController,required:  false,error:  '', icon: const Icon(Icons.email),),
+                      EntryFieldForm(text:  'Nouveau Mot de Passe (Facultatif)',type:  'password',express:  RegExp(''),
+                        control:  passwordController,required: false,error:  '', icon: const Icon(Icons.lock),),
 
-                            ButtonWidget(text:'Valider', onTap: actionFunction),
-                          ],
-                        ),
-                      ),
-                    )
+                      ButtonWidget(text:'Valider', onTap: actionFunction),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         )
     );

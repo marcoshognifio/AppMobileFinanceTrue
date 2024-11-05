@@ -3,20 +3,20 @@ import 'package:true_finance/components/data_class.dart';
 import 'package:true_finance/components/app_bar.dart';
 import 'package:true_finance/components/navbar_user.dart';
 
-class  UserProfit extends StatefulWidget {
-  const UserProfit({super.key});
+class  ProfitUser extends StatefulWidget {
+  const ProfitUser({super.key});
 
   @override
-  State<UserProfit> createState() => _UserProfitState();
+  State<ProfitUser> createState() => _ProfitUserState();
 }
 
-class _UserProfitState extends State<UserProfit> {
+class _ProfitUserState extends State<ProfitUser> {
 
 
   late Map  project;
-  TextStyle titleUpStyle = const TextStyle(fontFamily: 'Roboto-Regular', color: Colors.white,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
-  TextStyle titleStyle = const TextStyle(fontFamily: 'Roboto-Regular', color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
-  TextStyle titleLowerStyle = const TextStyle(fontFamily: 'Roboto-Regular',color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15);
+  TextStyle titleUpStyle = const TextStyle(fontFamily: 'Roboto', color: Colors.white,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
+  TextStyle titleStyle = const TextStyle(fontFamily: 'Roboto', color: Colors.black,fontStyle: FontStyle.italic,fontSize: 16,fontWeight: FontWeight.w900);
+  TextStyle titleLowerStyle = const TextStyle(fontFamily: 'Roboto',color: Colors.blueAccent,fontWeight: FontWeight.w500,fontSize: 15);
 
   actionFunction() async {
 

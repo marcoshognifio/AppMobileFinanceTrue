@@ -21,7 +21,7 @@ class DeleteProjectState extends State<DeleteProject> {
 
   int a = 0;
   TextStyle textStyle = const TextStyle(
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'Roboto',
       color: Colors.white,
       height: 2,
       fontSize: 20,
@@ -83,7 +83,7 @@ class DeleteProjectState extends State<DeleteProject> {
                                         height: 200,
                                         child: const Column(
                                           children: [
-                                            Text('Confirmer la suppression de ce projet',style: TextStyle(fontFamily: 'Roboto-Regular',),),
+                                            Text('Confirmer la suppression de ce projet',style: TextStyle(fontFamily: 'Roboto',),),
                                           ],
                                         ),
                                       ),
@@ -101,11 +101,11 @@ class DeleteProjectState extends State<DeleteProject> {
                                           if(data['success'] == true ){
                                             await Navigator.pushNamed(context, '/user/projects_create');
                                           }
-                                        }, child: const Text("Valider",style: TextStyle(fontFamily: 'Roboto-Regular',),)),
+                                        }, child: const Text("Valider",style: TextStyle(fontFamily: 'Roboto',),)),
 
                                         TextButton(onPressed:()async {
                                           Navigator.of(context).pop();
-                                        }, child: const Text("Quitter",style: TextStyle(fontFamily: 'Roboto-Regular',),))
+                                        }, child: const Text("Quitter",style: TextStyle(fontFamily: 'Roboto',),))
                                       ],
                                     )
                                 );

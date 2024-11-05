@@ -23,6 +23,7 @@ class LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   final GlobalKey<LoginPageState> myWidgetKey = GlobalKey();
   bool _isLoading = false;
+  String error ="";
 
   @override
   void dispose() {
@@ -57,7 +58,9 @@ class LoginPageState extends State<LoginPage> {
         await Navigator.pushNamed(context, '/user/projects_create');
       }
       else{
-        print(data['success']);
+        setState(() {
+          error = 'Email ou Mot de Passe Incorret';
+        });
       }
     }
   }
@@ -119,7 +122,12 @@ class LoginPageState extends State<LoginPage> {
               Center( child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
+                  if(error !="")
+                    Text(error,style: TextStyle(
+                      color: Colors.red,
+                      fontFamily: 'Roboto',
+                      fontSize: screenWidth*0.04
+                    ),),
                   content(),
                 ],
               )),
@@ -172,10 +180,10 @@ class LoginPageState extends State<LoginPage> {
               const Text("Pas de compte ?",style: TextStyle(fontFamily:"Roboto",color: Colors.white),),
               TextButton(
                   onPressed: () {Navigator.pushNamed(context, '/inscription');},
-                  child: const Text('Inscriver-vous',
+                  child:  Text('Inscriver-vous',
                     style: TextStyle(
                         fontFamily: "Roboto",
-                        color: Colors.blueAccent),))
+                        color: colorApp),))
             ],
           )
         ],
